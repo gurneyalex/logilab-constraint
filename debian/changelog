@@ -1,0 +1,81 @@
+constraint (0.3.0-4) unstable; urgency=low
+
+  * Upload of our internal changes to Debian
+
+ -- Alexandre Fayolle <afayolle@debian.org>  Fri, 10 Feb 2006 15:18:19 +0100
+
+constraint (0.3.0-3) unstable; urgency=low
+
+  * No more logilab/__init__.py handling (done in python-logilab-common now)
+
+ -- Sylvain Thénault <sylvain.thenault@logilab.fr>  Mon,  6 Feb 2006 16:47:48 +0100
+
+constraint (0.3.0-2) unstable; urgency=low
+
+  * Reorganization to install into site-python, removing the need for 
+    pythonX.X- packages
+
+ -- Sylvain Thénault <sylvain.thenault@logilab.fr>  Mon, 23 Jan 2006 15:43:17 +0100
+
+constraint (0.3.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Initial Debian upload (closes: #317958)
+
+ -- Alexandre Fayolle <afayolle@debian.org>  Mon,  5 Sep 2005 18:25:54 +0200
+
+constraint (0.2.7-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Adrien Di Mascio <Adrien.DiMascio@logilab.fr>  Fri, 17 Jun 2005 17:05:13 +0200
+
+constraint (0.2.6-1) unstable; urgency=low
+
+  * New upstream release
+  * Dropped support for python2.2
+  * Added support for python2.4
+
+ -- Alexandre Fayolle <afayolle@debian.org>  Tue, 21 Dec 2004 11:15:47 +0100
+
+constraint (0.2.5-2) unstable; urgency=low
+
+  * Fixed dependencies
+
+ -- alexandre fayolle <alexandre.fayolle@logilab.fr>  Fri, 11 Jun 2004 11:50:07 +0200
+
+constraint (0.2.5-1) unstable; urgency=low
+
+  * New upstream release, featuring major code cleanup
+  * Changed default python version
+  * Updated standards version
+  * renamed packages to remove logilab
+
+ -- Alexandre Fayolle <alexandre.fayolle@logilab.fr>  Fri, 20 Feb 2004 15:35:41 +0100
+
+logilab-constraint (0.2.4-2) unstable; urgency=low
+
+  * fixed installation problem in installdoc (syntax error in control file)
+
+ -- Alexandre Fayolle <alexandre.fayolle@logilab.fr>  Mon, 28 Jul 2003 16:43:46 +0200
+
+logilab-constraint (0.2.4-1) unstable; urgency=low
+
+  * New upstream release, adds new constraints, new distributor
+  * added Suggests on python-psyco
+  * logilab packaging update
+
+ -- Alexandre Fayolle <alexandre.fayolle@logilab.fr>  Wed, 23 Jul 2003 12:18:19 +0200
+
+logilab-constraint (0.2.3-1) unstable; urgency=low
+  
+  * New upstream release
+
+ -- Alexandre Fayolle <alexandre.fayolle@logilab.fr>  Wed, 16 Oct 2002 16:17:11 +0200
+
+logilab-constraint (0.2.2-1) unstable; urgency=low
+  
+  * initial release
+
+ -- Alexandre Fayolle <alexandre.fayolle@logilab.fr>  Mon, 16 Sep 2002 16:52:28 +0200
+

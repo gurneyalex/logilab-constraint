@@ -1,0 +1,9 @@
+recursive-include doc *.xml
+recursive-include doc *.html
+include doc/CONTRIBUTORS
+include ChangeLog
+include COPYING
+include README
+include DEPENDS
+include test/TODO
+recursive-include examples *.py

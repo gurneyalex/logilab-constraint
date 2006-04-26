@@ -1,0 +1,21 @@
+What's new ?
+------------
+%CHANGELOG%
+
+
+What's %SOURCEPACKAGE% ?
+------------------------
+%LONG_DESC%
+
+
+Home page
+---------
+%WEB%
+
+Download
+--------
+%FTP%
+
+Mailing list
+------------
+mailto://python-logic@lists.logilab.org
