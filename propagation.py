@@ -16,8 +16,6 @@
 # USA.
 """The code of the constraint propagation algorithms"""
 
-__revision__ = '$Id: propagation.py,v 1.37 2005-12-28 15:15:01 adim Exp $'
-
 from __future__ import generators
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
 import bisect, operator
