@@ -2,16 +2,15 @@ Source: constraint
 Section: python
 Priority: optional
 Maintainer: Alexandre Fayolle <afayolle@debian.org> 
-Build-Depends: debhelper (>= 5.0.0), python-dev
+Build-Depends: debhelper (>= 5.0.37.1), python-dev (>=2.3.5-7), python (>=2.3.5-7), python-central
+XS-Python-Version: all
 Standards-Version: 3.7.2
 
 Package: python-constraint
 Architecture: all
 Suggests: python-psyco
-Depends: python, python-logilab-common (>= 0.12.0)
-Provides: python2.3-constraint, python2.4-constraint
-Conflicts: python2.3-constraint, python2.4-constraint
-Replaces: python2.3-constraint, python2.4-constraint
+Depends: ${python:Depends}, python-logilab-common (>= 0.16.1-2)
+XB-Python-Version: ${python:Versions}
 Description: constraints satisfaction solver in Python
  Extensible constraint satisfaction problem solver written in pure
  Python, using constraint propagation algorithms. The
