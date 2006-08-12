@@ -50,7 +50,7 @@ class FiniteDomain(AbstractDomain):
         This class uses a dictionnary to make sure that there are
         no duplicate values"""
         AbstractDomain.__init__(self)
-        if isinstance(values,FiniteDomain):
+        if isinstance(values, FiniteDomain):
             # do a copy on write
             self._cow = True
             values._cow = True
@@ -123,6 +123,7 @@ class AllDistinct(AbstractConstraint):
         return '<AllDistinct %s>' % str(self._variables)
 
     def estimateCost(self, domains):
+        """return cost"""
         return self.__cost
 
     def narrow(self, domains):
@@ -358,10 +359,12 @@ class GreaterOrEqual(BasicConstraint):
     def __init__(self, variable, reference):
         BasicConstraint.__init__(self, variable, reference, operator.ge)
 
-def _in(v,set):
+def _in(v, set):
+    """test presence of v in set"""
     return v in set
 
 class InSet(BasicConstraint):
+    """A basic contraint variable in set value"""
     def __init__(self, variable, set):
         BasicConstraint.__init__(self, variable, set, _in )
 

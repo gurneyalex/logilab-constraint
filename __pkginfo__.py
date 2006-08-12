@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-"""Copyright (c) 2002-2005 LOGILAB S.A. (Paris, FRANCE).
+"""Copyright (c) 2001-2006 LOGILAB S.A. (Paris, FRANCE).
 http://www.logilab.fr/ -- mailto:contact@logilab.fr  
 """
 
@@ -25,12 +25,12 @@ version = '.'.join(map(str, numversion))
 pyversions = ('2.3', '2.4')
 
 license = 'GPL'
-copyright = '''Copyright (c) 2001-2005 LOGILAB S.A. (Paris, FRANCE).
+copyright = '''Copyright (c) 2001-2006 LOGILAB S.A. (Paris, FRANCE).
 http://www.logilab.fr/ -- mailto:contact@logilab.fr'''
 
 short_desc = "constraints satisfaction solver in Python"
 
-long_desc = """ Extensible constraint satisfaction problem solver written in pure
+long_desc = """Extensible constraint satisfaction problem solver written in pure
 Python, using constraint propagation algorithms. The
 logilab.constraint module provides finite domains with arbitrary
 values, finite interval domains, and constraints which can be applied

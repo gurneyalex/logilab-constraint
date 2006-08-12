@@ -159,8 +159,8 @@ class Repository(Psyobj):
         while True:
             if not _queue:
                 # refill the queue if some constraints have been affected
-                _queue = [ (constr.estimateCost(self._domains),
-                           constr) for constr in _affected_constraints ]
+                _queue = [(constr.estimateCost(self._domains),
+                           constr) for constr in _affected_constraints]
                 if not _queue:
                     break
                 _queue.sort()
@@ -184,7 +184,7 @@ class Repository(Psyobj):
                     print ' -> New domain for variable', var, 'is', dom
                 for constr in self._variableListeners[var]:
                     if constr is not constraint:
-                        _affected_constraints[constr]=True
+                        _affected_constraints[constr] = True
                 dom.resetFlags()
             if entailed:
                 if verbose:
@@ -200,7 +200,10 @@ class Repository(Psyobj):
         return 1
 
 class Solver(Psyobj):
+    """Top-level object used to manage the search"""
+
     def __init__(self, distributor=None):
+        """if no distributer given, will use the default one"""
         if distributor is None:
             from logilab.constraint.distributors import DefaultDistributor
             distributor = DefaultDistributor()
@@ -240,6 +243,7 @@ class Solver(Psyobj):
             yield solution
 
     def solve(self, repository, verbose=0):
+        """return list of all solutions"""
         self.max_depth = 0
         solutions = []
         for solution in self.solve_all(repository, verbose):
