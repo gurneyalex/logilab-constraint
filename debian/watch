@@ -1,3 +1,3 @@
 version=2
-ftp://ftp.logilab.org/pub/constraint//constraint-(.*)\.tar\.gz debian uupdate
+ftp://ftp.logilab.org/pub/constraint//logilab-constraint-(.*)\.tar\.gz debian uupdate
 

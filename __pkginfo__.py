@@ -15,10 +15,8 @@
 http://www.logilab.fr/ -- mailto:contact@logilab.fr  
 """
 
-__revision__ = '$Id: __pkginfo__.py,v 1.16 2006-01-23 14:43:47 syt Exp $'
-
-
 modname = 'constraint'
+distname = 'logilab-constraint'
 
 numversion = (0, 3, 0)
 version = '.'.join(map(str, numversion))
