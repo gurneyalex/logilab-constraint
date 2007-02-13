@@ -155,6 +155,7 @@ class Repository(Psyobj):
 
         _queue = [ (constr.estimateCost(self._domains),
                            constr) for constr in self._constraints ]
+        _queue.sort()
         _affected_constraints = {}
         while True:
             if not _queue:
