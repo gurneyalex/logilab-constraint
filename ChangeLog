@@ -3,10 +3,10 @@ ChangeLog for logilab.constraint
 
 2005-09-05  --  0.3.0
     * Added finite interval domains and constraints in module
-    constraint.fi
+      constraint.fi
 	
     * constraint now depends on logilab.common to support a larger number
-    of python versions 
+      of python versions 
 	
     * Optimisation of finite domains by using copy on write
 	
