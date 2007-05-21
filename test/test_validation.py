@@ -17,8 +17,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: test_validation.py,v 1.6 2005-04-15 12:38:32 syt Exp $'
-
 import unittest
 
 from logilab.constraint import *

@@ -21,7 +21,6 @@ the smallest domain in at most N subdomains."""
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: rooks.py,v 1.1 2005-07-08 14:24:31 ludal Exp $'
 
 from __future__ import generators
 

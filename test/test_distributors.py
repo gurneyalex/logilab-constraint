@@ -17,8 +17,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: test_distributors.py,v 1.4 2005-01-03 14:08:34 alf Exp $'
-
 import unittest
 from logilab.constraint import distributors,fd
 

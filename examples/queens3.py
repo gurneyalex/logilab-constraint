@@ -21,7 +21,6 @@ the smallest domain in at most N subdomains."""
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: queens3.py,v 1.1 2005-07-08 10:35:24 alf Exp $'
 
 from __future__ import generators
 

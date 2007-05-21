@@ -20,8 +20,6 @@ move away from each other"""
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: knights.py,v 1.3 2005-04-15 13:27:09 alf Exp $'
-
 
 from logilab.constraint import *
 from logilab.constraint.distributors import *

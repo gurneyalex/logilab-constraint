@@ -28,8 +28,6 @@ make_expression factory function.  """
 
 from __future__ import generators
 
-__revision__ = '$Id: fd.py,v 1.31 2005-07-13 13:46:50 ludal Exp $'
-
 import operator
 
 from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \

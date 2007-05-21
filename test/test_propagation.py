@@ -17,8 +17,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: test_propagation.py,v 1.6 2005-01-05 07:29:18 alf Exp $'
-
 import unittest
 import os
 from logilab.constraint.propagation import *

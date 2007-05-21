@@ -15,8 +15,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: __profile__.py,v 1.1 2002-10-17 16:14:53 syt Exp $'
-
 from logilab.constraint.propagation import *
 from logilab.constraint import fd
 

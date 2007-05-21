@@ -18,7 +18,6 @@
 logilab.constraint package. Constraint Propagation Solver in Python.
 """
 
-__revision__ = '$Id: __init__.py,v 1.16 2005-07-12 15:06:47 alf Exp $'
 
 from logilab.constraint.propagation import Repository, Solver
 from logilab.constraint.distributors import DefaultDistributor

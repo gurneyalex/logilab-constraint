@@ -15,7 +15,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: interfaces.py,v 1.12 2005-07-12 15:07:59 alf Exp $'
 
 class ConstraintInterface:
     """The interface that all constraints should implement"""

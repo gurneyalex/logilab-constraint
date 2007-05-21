@@ -21,8 +21,6 @@
 
 from __future__ import generators, division
 
-__revision__ = '$Id: fi.py,v 1.14 2005-08-04 14:16:18 adim Exp $'
-
 from logilab.common.compat import set, sorted
 
 from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \

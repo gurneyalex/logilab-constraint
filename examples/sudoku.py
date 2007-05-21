@@ -15,7 +15,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: sudoku.py,v 1.1 2006-02-16 14:10:37 alf Exp $'
 
 from logilab.constraint import *
 

@@ -19,8 +19,6 @@
 distributors - part of Logilab's constraint satisfaction solver.
 """
 
-__revision__ = '$Id: distributors.py,v 1.25 2005-01-14 15:16:21 alf Exp $'
-
 from logilab.constraint.psyco_wrapper import Psyobj
 from logilab.constraint.interfaces import DistributorInterface
 import math, random

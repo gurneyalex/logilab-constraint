@@ -21,8 +21,6 @@ the smallest domain in at most N subdomains."""
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: queens.py,v 1.16 2005-07-12 16:19:59 ludal Exp $'
-
 from __future__ import generators
 
 from logilab.constraint import *

@@ -20,8 +20,6 @@
 
 from __future__ import nested_scopes
 
-__revision__ = '$Id: setup.py,v 1.16 2006-01-23 15:01:54 syt Exp $'
-
 import os
 import sys
 import shutil

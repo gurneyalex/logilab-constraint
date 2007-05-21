@@ -17,8 +17,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: test_fi.py,v 1.10 2005-08-04 13:08:53 adim Exp $'
-
 import unittest
 from logilab.constraint.fi import *
 

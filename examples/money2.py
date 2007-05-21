@@ -17,7 +17,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: money2.py,v 1.6 2004-12-21 10:17:26 alf Exp $'
 
 from logilab.constraint import *
 from logilab.constraint.distributors import SplitDistributor

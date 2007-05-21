@@ -22,8 +22,6 @@
 Example problem with intervals
 """
 
-__revision__ = '$Id: intervals.py,v 1.2 2005-07-13 10:31:36 alf Exp $'
-
 from __future__ import generators
 
 from logilab.constraint import *

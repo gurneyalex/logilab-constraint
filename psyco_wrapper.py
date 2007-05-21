@@ -17,8 +17,6 @@
 
 """Provides an psyobj class regardless of the availability of psyco"""
 
-__revision__ = '$Id: psyco_wrapper.py,v 1.10 2005-04-15 13:15:08 alf Exp $'
-
 import os
 
 try:

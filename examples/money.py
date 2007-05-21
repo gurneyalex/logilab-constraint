@@ -17,7 +17,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-__revision__ = '$Id: money.py,v 1.13 2004-12-21 10:17:26 alf Exp $'
 
 from logilab.constraint import *
 
