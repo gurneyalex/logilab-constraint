@@ -44,22 +44,14 @@ def queens(size=8,verbose=0,distrib="enum"):
         domains[name] = fd.FiniteDomain( range(size) )
 
     for r1 in range(size):
-        for r2 in range(size):
-            q1 = 'Q%02d' % r1
+        q1 = 'Q%02d' % r1
+        for r2 in range(r1+1, size):
             q2 = 'Q%02d' % r2
-            if r1 < r2:
-                D = {'q1':q1,'q2':q2, 'r1' : r1, 'r2' : r2 }
-                c = fd.make_expression((q1,q2),
-                                       '%(q1)s != %(q2)s and '
-                                       'abs(%(r1)s-%(r2)s) != '
-                                       'abs(%(q1)s-%(q2)s)'% D )
-                constraints.append(c)
-##                 c1 = fd.make_expression((q1,q2), '%(q1)s != %(q2)s' % D )
-##                 c2 = fd.make_expression((q1,q2), 'abs(%(r1)s-%(r2)s) != '
-##                                        'abs(%(q1)s-%(q2)s)'% D
-##                                        )
-##                 constraints.append(c1)
-##                 constraints.append(c2)
+            D = {'q1':q1,'q2':q2, 'diag':(r2-r1) }
+            c = fd.make_expression((q1,q2),
+                                   '%(q1)s != %(q2)s and '
+                                   '%(diag)s != abs(%(q1)s-%(q2)s)'% D )
+            constraints.append(c)
                 
     r = Repository(variables,domains,constraints)
     Distrib = distributors[distrib]
