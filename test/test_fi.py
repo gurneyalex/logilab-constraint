@@ -21,7 +21,7 @@ __revision__ = '$Id: test_fi.py,v 1.10 2005-08-04 13:08:53 adim Exp $'
 
 import unittest
 from logilab.constraint.fi import *
-
+from logilab.constraint import Repository, Solver
 
 class FiniteIntervalTC(unittest.TestCase):
 
@@ -483,6 +483,70 @@ class DistributorTC(unittest.TestCase):
         self.assertEquals(d1.size(), dom1['v1'].size() + dom2['v1'].size())
         
 
-    
+class PlannerTC(unittest.TestCase):
+    def setUp(self):
+        self.d = FiniteIntervalDistributor()
+        self.verbose = 1
+        
+    def solve_repo1(self, constraints):
+        dom1 = FiniteIntervalDomain(0, 15, 5)
+        dom2 = FiniteIntervalDomain(0, 15, 5)
+        dom3 = FiniteIntervalDomain(0, 15, 5)
+        repo = Repository( ['A','B','C'], { 'A': dom1,
+                                            'B': dom2,
+                                            'C': dom3 },
+                           constraints )
+        s = Solver( self.d )
+        answers = list(s.solve_all(repo,verbose=self.verbose))
+        self.assertEquals(len(answers), 2)
+        import pprint
+        pprint.pprint( list(answers) )
+
+    def test_pb1(self):
+        constraints = [ StartsAfterEnd('B','A'),
+                        StartsAfterEnd('C','A'),
+                        NoOverlap('B','C' ) ]
+        self.solve_repo1( constraints )
+
+    def test_pb2(self):
+        constraints = [ EndsBeforeStart('A','B'),
+                        EndsBeforeStart('A','C'),
+                        NoOverlap('B','C' ) ]
+        self.solve_repo1( constraints )
+
+
+    def solve_repo2(self, constraints):
+        dom1 = FiniteIntervalDomain(0, 20, 5)
+        dom2 = FiniteIntervalDomain(0, 20, 5)
+        dom3 = FiniteIntervalDomain(0, 20, 10)
+        dom4 = FiniteIntervalDomain(0, 20, 5)
+        repo = Repository( ['A','B','C', 'D'], { 'A': dom1,
+                                                 'B': dom2,
+                                                 'C': dom3,
+                                                 'D': dom4 },
+                           constraints )
+        s = Solver( self.d )
+        answers = list(s.solve_all(repo,verbose=1))
+        import pprint
+        pprint.pprint( list(answers) )
+
+    def test_pb3(self):
+        constraints = [ StartsAfterEnd('B','A'),
+                        StartsAfterEnd('C','A'),
+                        StartsAfterEnd('D','B'),
+                        StartsAfterEnd('D','C'),
+                        ]
+        self.solve_repo2( constraints )
+
+    def test_pb4(self):
+        constraints = [ StartsAfterEnd('B','A'),
+                        StartsAfterEnd('C','A'),
+                        StartsAfterEnd('D','B'),
+                        StartsAfterEnd('D','C'),
+                        StartsAfterEnd('D','A'),
+                        ]
+        self.solve_repo2( constraints )
+
+
 if __name__ == '__main__':
     unittest.main()

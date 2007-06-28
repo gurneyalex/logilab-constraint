@@ -30,6 +30,7 @@ from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \
                                            AbstractConstraint
 
 from logilab.constraint.distributors import AbstractDistributor
+import math
 
 class Interval:
     """representation of an interval
@@ -157,17 +158,14 @@ class FiniteIntervalDomain(AbstractDomain):
                                      (self._min_length, self._max_length))
 
         self._max_length = min(self._max_length, self.highestMax - self.lowestMin)
+        AbstractDomain._valueRemoved(self)
 
-        if self.size() == 0:
-            raise ConsistencyFailure('size is 0')
-        
-                                 
-    
     def __repr__(self):
-        return '<FiniteIntervalDomain from [%.2f, %.2f[ to [%.2f, %.2f[>' % (self.lowestMin,
-                                                                             self.lowestMax,
-                                                                             self.highestMin,
-                                                                             self.highestMax)
+        return '<FiniteIntervalDomain % 3d from [%.2f, %.2f[ to [%.2f, %.2f[>' % (self.size(),
+                                                                                  self.lowestMin,
+                                                                                  self.lowestMax,
+                                                                                  self.highestMin,
+                                                                                  self.highestMax,)
 
 ##
 ## Distributors
@@ -185,9 +183,16 @@ class FiniteIntervalDistributor(AbstractDistributor):
         AbstractDistributor.__init__(self)
 
     def _split_values(self, copy1, copy2):
+        lm = copy1.lowestMin
+        hM = copy1.highestMax
         if copy1.hasSingleLength():
-            copy1.highestMax = copy1.lowestMin + copy1._min_length
-            copy2.lowestMin += copy2._resolution
+            r = copy1._resolution
+            L = copy1._min_length
+            m = (hM-L+lm)//(2*r)*r
+##             copy1.highestMax = copy1.lowestMin + copy1._min_length
+##             copy2.lowestMin += copy2._resolution
+            copy1.highestMax = m+L
+            copy2.lowestMin = m+r
         else:
             copy1._max_length = copy1._min_length
             copy2._min_length += copy2._resolution
@@ -285,8 +290,8 @@ class StartsBeforeEnd(AbstractFIConstraint):
             raise ConsistencyFailure
         if dom1.highestMin < dom2.lowestMax:
             return 1
-        return 0 
-    
+        return 0
+
 class EndsBeforeStart(AbstractFIConstraint):
 
     def _doNarrow(self, dom1, dom2):
@@ -329,7 +334,9 @@ class StartsAfterEnd(AbstractFIConstraint):
             return 1
         if dom1.lowestMin < dom2.lowestMax:
             dom1.setLowestMin(dom2.lowestMax)
-        return 0 
+        if dom2.highestMax > dom1.highestMin:
+            dom2.setHighestMax(dom1.highestMin)
+        return 0
 
 class EndsAfterStart(AbstractFIConstraint):
 

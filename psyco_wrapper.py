@@ -22,6 +22,9 @@ __revision__ = '$Id: psyco_wrapper.py,v 1.10 2005-04-15 13:15:08 alf Exp $'
 import os
 
 try:
+    import os
+    if "NO_PSYCO" in os.environ:
+        raise ImportError
     from psyco.classes import psyobj as Psyobj
 except ImportError:
     from warnings import warn
