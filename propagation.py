@@ -49,6 +49,23 @@ class Repository(Psyobj):
         for constr in constraints or ():
             self.addConstraint(constr)
 
+
+    def display(self):
+        print "VARIABLES"
+        print "---------"
+        for v in sorted(self._variables):
+            print "%s = %s" % (v, self._domains[v])
+        print "CONSTRAINTS"
+        print "-----------"
+        for c in self._constraints:
+            print c
+
+    def display_vars(self):
+        print "%d constraints with:" % len(self._constraints)
+        for v in sorted(self._variables):
+            print "%15s = %s" % (v, self._domains[v])
+            
+        
     def __repr__(self):
         return '<Repository nb_constraints=%d domains=%s>' % \
                                (len(self._constraints), self._domains)
@@ -216,6 +233,7 @@ class Solver(Psyobj):
         """Generates only one solution"""
         self.verbose = verbose
         self.max_depth = 0
+        self.distrib_cnt = 0
         try:
             # XXX  FIXME: this is a workaround a bug in psyco-1.4
 ##             return  self._solve(repository).next()
@@ -227,6 +245,7 @@ class Solver(Psyobj):
         """Generates solution with an improving cost"""
         self.verbose = verbose
         self.max_depth = 0
+        self.distrib_cnt = 0
         best_cost = None
             # XXX  FIXME: this is a workaround a bug in psyco-1.4
 ##        for solution in self._solve(repository):
@@ -240,12 +259,14 @@ class Solver(Psyobj):
         """Generates all solutions"""
         self.verbose = verbose
         self.max_depth = 0
+        self.distrib_cnt = 0
         for solution in self._solve(repository):
             yield solution
 
     def solve(self, repository, verbose=0):
         """return list of all solutions"""
         self.max_depth = 0
+        self.distrib_cnt = 0
         solutions = []
         for solution in self.solve_all(repository, verbose):
             solutions.append(solution)
@@ -253,14 +274,14 @@ class Solver(Psyobj):
         
     def _solve(self, repository, recursion_level=0):
         """main generator"""
-        solve = self._solve
+        _solve = self._solve
         verbose = self.verbose
         if recursion_level > self.max_depth:
             self.max_depth = recursion_level
         if verbose:
             print strftime('%H:%M:%S'),
             print '*** [%d] Solve called with repository' % recursion_level,
-            print repository
+            repository.display_vars()
         try:
             foundSolution = repository.consistency(verbose)
         except ConsistencyFailure, exc:
@@ -268,7 +289,7 @@ class Solver(Psyobj):
                 print strftime('%H:%M:%S'), exc
             pass
         else:
-            if foundSolution: 
+            if foundSolution:
                 solution = {}
                 for variable, domain in repository.getDomains().items():
                     solution[variable] = domain.getValues()[0]
@@ -277,9 +298,10 @@ class Solver(Psyobj):
                     print '-'*80
                 yield solution
             else:
+                self.distrib_cnt += 1
                 for repo in repository.distribute(self._distributor,
                                                   verbose):
-                    for solution in solve(repo, recursion_level+1):
+                    for solution in _solve(repo, recursion_level+1):
                         if solution is not None:
                             yield solution
                             
@@ -287,6 +309,7 @@ class Solver(Psyobj):
             print strftime('%H:%M:%S'),'Finished search'
             print strftime('%H:%M:%S'),
             print 'Maximum recursion depth = ', self.max_depth
+            print 'Nb distributions = ', self.distrib_cnt
 
         
 

@@ -20,6 +20,9 @@
 import os
 
 try:
+    import os
+    if "NO_PSYCO" in os.environ:
+        raise ImportError
     from psyco.classes import psyobj as Psyobj
 except ImportError:
     from warnings import warn
