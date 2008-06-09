@@ -17,14 +17,15 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 
-import unittest
+from logilab.common.testlib import TestCase
 
 from logilab.constraint import *
 from logilab.constraint.distributors import EnumeratorDistributor
+
 import os, sys
 from cStringIO import StringIO
 
-class Queens8_TC(unittest.TestCase):
+class Queens8_TC(TestCase):
     size = 8
     nb_sols = 92
     verbose=0
@@ -54,11 +55,13 @@ class Queens8_TC(unittest.TestCase):
         sys.stdout = sys.__stdout__
 
     def testQueensWithEnumerator(self):
+        self.skip("to long")
         solver = Solver(EnumeratorDistributor())
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
 
     def testQueensWithDefaultDistributor(self):
+        self.skip("to long")
         solver = Solver()
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
@@ -95,5 +98,3 @@ if os.environ.get('PYLINT_IMPORT') != '1':
         size=10
         nb_sols=724
 
-if __name__ == '__main__':
-    unittest.main()
