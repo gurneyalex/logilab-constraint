@@ -17,9 +17,9 @@
 """The code of the constraint propagation algorithms"""
 
 from __future__ import generators
-from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
-import bisect, operator
+from operator import mul as MUL
 from time import strftime
+from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
 from logilab.constraint.psyco_wrapper import Psyobj
 from logilab.common.compat import enumerate
 
@@ -287,7 +287,6 @@ class Solver(Psyobj):
         except ConsistencyFailure, exc:
             if verbose:
                 print strftime('%H:%M:%S'), exc
-            pass
         else:
             if foundSolution:
                 solution = {}
@@ -395,7 +394,6 @@ class AbstractConstraint(Psyobj):
 
     def estimateCost(self, domains):
         """Return an estimate of the cost of the narrowing of the constraint"""
-        return reduce(operator.mul,
-                      [domains[var].size() for var in self._variables])
+        return reduce(MUL, [domains[var].size() for var in self._variables])
 
     

@@ -23,12 +23,9 @@ from __future__ import generators, division
 
 from logilab.common.compat import set, sorted
 
-from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \
-                                           ConsistencyFailure, \
-                                           AbstractConstraint
-
 from logilab.constraint.distributors import AbstractDistributor
-import math
+from logilab.constraint.propagation import (AbstractDomain, ConsistencyFailure,
+                                            AbstractConstraint)
 
 class Interval:
     """representation of an interval

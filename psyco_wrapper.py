@@ -1,3 +1,4 @@
+# pylint: disable-msg=W0232
 # (c) 2002-2004 LOGILAB S.A. (Paris, FRANCE).
 # http://www.logilab.fr/ -- mailto:contact@logilab.fr
 #
@@ -20,18 +21,21 @@
 import os
 
 try:
-    import os
     if "NO_PSYCO" in os.environ:
-        raise ImportError
-    from psyco.classes import psyobj as Psyobj
+        raise ImportError()
+    from psyco.classes import psyobj as Psyobj # pylint: disable-msg=W0611
 except ImportError:
-    from warnings import warn
-    warn("""Psyco could not be loaded.
-Psyco is a Python just in time compiler available at http://psyco.sf.net
-Installing it will enhance the performance of logilab.constraint""",
-         stacklevel=2)
-          
+
     class Psyobj:
         pass
+
+    if hasattr(os,'uname') and os.uname()[-1] == 'x86_64':
+        pass # psyco only available for 32bits platforms
+    else:
+        from warnings import warn
+        warn("Psyco could not be loaded."
+             " Psyco is a Python just in time compiler available at http://psyco.sf.net"
+             " Installing it will enhance the performance of logilab.constraint",
+             stacklevel=2)
 
 
