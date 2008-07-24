@@ -235,6 +235,7 @@ class Solver(Psyobj):
         if distributor is None:
             from logilab.constraint.distributors import DefaultDistributor
             distributor = DefaultDistributor()
+        self.verbose = True
         self._distributor = distributor
         self.max_depth = 0
 
@@ -287,7 +288,7 @@ class Solver(Psyobj):
         verbose = self.verbose
         if recursion_level > self.max_depth:
             self.max_depth = recursion_level
-        if verbose:
+        if verbose >= 2:
             self.printer( strftime('%H:%M:%S'),)
             self.printer( '*** [%d] Solve called with repository' % recursion_level,)
             repository.display_vars()
@@ -308,7 +309,7 @@ class Solver(Psyobj):
             else:
                 self.distrib_cnt += 1
                 for repo in repository.distribute(self._distributor,
-                                                  verbose):
+                                                  verbose>=2):
                     for solution in _solve(repo, recursion_level+1):
                         if solution is not None:
                             yield solution
