@@ -283,7 +283,6 @@ class Solver(Psyobj):
         
     def _solve(self, repository, recursion_level=0):
         """main generator"""
-        self.verbose = True
         _solve = self._solve
         verbose = self.verbose
         if recursion_level > self.max_depth:
