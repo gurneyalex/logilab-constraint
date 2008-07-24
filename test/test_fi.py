@@ -465,8 +465,8 @@ class DistributorTC(unittest.TestCase):
         self.assertEquals(d1.size(), dom1['v1'].size() + dom2['v1'].size())
 
     def test_DistributeSameLengths(self):
-        d1 = FiniteIntervalDomain(0, 5, 3)
-        d2 = FiniteIntervalDomain(0, 20, 1)
+        d1 = FiniteIntervalDomain(lowestMin=0, highestMax=5,  min_length=4)
+        d2 = FiniteIntervalDomain(lowestMin=0, highestMax=20, min_length=1)
         domains = {'v1': d1,
                    'v2': d2,
                    }
