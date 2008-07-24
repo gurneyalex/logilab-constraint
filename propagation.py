@@ -23,6 +23,10 @@ from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
 from logilab.constraint.psyco_wrapper import Psyobj
 from logilab.common.compat import enumerate
 
+def _default_printer(*msgs):
+    for msg in msgs[:-1]:
+        print msg,
+    print msgs[-1]
 class ConsistencyFailure(Exception):
     """The repository is not in a consistent state"""
     pass
@@ -32,8 +36,10 @@ class Repository(Psyobj):
     Propagates domain changes to constraints
     Manages the constraint evaluation queue"""
     
-    def __init__(self, variables, domains, constraints = None):
+    def __init__(self, variables, domains, constraints = None, printer=_default_printer):
         # encode unicode
+        self._printer = printer
+        
         for i, var in enumerate(variables):
             if type(var) == type(u''):
                 variables[i] = var.encode()
@@ -51,19 +57,19 @@ class Repository(Psyobj):
 
 
     def display(self):
-        print "VARIABLES"
-        print "---------"
+        self._printer( "VARIABLES")
+        self._printer( "---------")
         for v in sorted(self._variables):
-            print "%s = %s" % (v, self._domains[v])
-        print "CONSTRAINTS"
-        print "-----------"
+            self._printer( "%s = %s" % (v, self._domains[v]))
+        self._printer( "CONSTRAINTS")
+        self._printer( "-----------")
         for c in self._constraints:
-            print c
+            self._printer( c)
 
     def display_vars(self):
-        print "%d constraints with:" % len(self._constraints)
+        self._printer( "%d constraints with:" % len(self._constraints))
         for v in sorted(self._variables):
-            print "%15s = %s" % (v, self._domains[v])
+            self._printer( "%15s = %s" % (v, self._domains[v]))
             
         
     def __repr__(self):
@@ -109,7 +115,7 @@ class Repository(Psyobj):
             for var1 in affected_vars:
                 printer.edge(var1, n_id, arrowstyle='none',
                              color=EDGE_ATTRS['color'][type_colors[key]])
-        # print legend
+        # self._printer( legend)
         for node_type, color in type_colors.items():
             printer.node(node_type, shape='box',
                          color=EDGE_ATTRS['color'][color])
@@ -162,13 +168,17 @@ class Repository(Psyobj):
 ##                 self.addConstraint(constraint)
 ##             yield self
     
-    def consistency(self, verbose=0):
+    def consistency(self, verbose=0, custom_printer=None):
         """Prunes the domains of the variables
         This method calls constraint.narrow() and queues constraints
         that are affected by recent changes in the domains.
         Returns True if a solution was found"""
+        if custom_printer is None:
+            printer = self._printer
+        else:
+            printer = custom_printer
         if verbose:
-            print strftime('%H:%M:%S'), '** Consistency **'
+            printer( strftime('%H:%M:%S'), '** Consistency **')
 
         _queue = [ (constr.estimateCost(self._domains),
                            constr) for constr in self._constraints ]
@@ -184,12 +194,11 @@ class Repository(Psyobj):
                 _queue.sort()
                 _affected_constraints.clear()
             if verbose > 2:
-                print strftime('%H:%M:%S'), 'Queue', _queue
+                printer( strftime('%H:%M:%S'), 'Queue', _queue)
             cost, constraint = _queue.pop(0)
             if verbose > 1:
-                print strftime('%H:%M:%S'),
-                print 'Trying to entail constraint',
-                print constraint, '[cost:%d]' % cost
+                printer( strftime('%H:%M:%S'),
+                'Trying to entail constraint', constraint, '[cost:%d]' % cost)
             entailed = constraint.narrow(self._domains)
             for var in constraint.affectedVariables():
                 # affected constraints are listeners of
@@ -198,16 +207,16 @@ class Repository(Psyobj):
                 if not dom.hasChanged():
                     continue
                 if verbose > 1 :
-                    print strftime('%H:%M:%S'),
-                    print ' -> New domain for variable', var, 'is', dom
+                    printer( strftime('%H:%M:%S'),
+                        ' -> New domain for variable', var, 'is', dom)
                 for constr in self._variableListeners[var]:
                     if constr is not constraint:
                         _affected_constraints[constr] = True
                 dom.resetFlags()
             if entailed:
                 if verbose:
-                    print strftime('%H:%M:%S'),
-                    print "--> Entailed constraint", constraint
+                    printer( strftime('%H:%M:%S'),
+                        "--> Entailed constraint", constraint)
                 self._removeConstraint(constraint)
                 if constraint in _affected_constraints:
                     del _affected_constraints[constraint]
@@ -220,13 +229,13 @@ class Repository(Psyobj):
 class Solver(Psyobj):
     """Top-level object used to manage the search"""
 
-    def __init__(self, distributor=None):
+    def __init__(self, distributor=None, printer=_default_printer):
         """if no distributer given, will use the default one"""
+        self.printer = printer
         if distributor is None:
             from logilab.constraint.distributors import DefaultDistributor
             distributor = DefaultDistributor()
         self._distributor = distributor
-        self.verbose = 1
         self.max_depth = 0
 
     def solve_one(self, repository, verbose=0):
@@ -274,27 +283,28 @@ class Solver(Psyobj):
         
     def _solve(self, repository, recursion_level=0):
         """main generator"""
+        self.verbose = True
         _solve = self._solve
         verbose = self.verbose
         if recursion_level > self.max_depth:
             self.max_depth = recursion_level
         if verbose:
-            print strftime('%H:%M:%S'),
-            print '*** [%d] Solve called with repository' % recursion_level,
+            self.printer( strftime('%H:%M:%S'),)
+            self.printer( '*** [%d] Solve called with repository' % recursion_level,)
             repository.display_vars()
         try:
-            foundSolution = repository.consistency(verbose)
+            foundSolution = repository.consistency(verbose, custom_printer=self.printer)
         except ConsistencyFailure, exc:
             if verbose:
-                print strftime('%H:%M:%S'), exc
+                self.printer( strftime('%H:%M:%S'), exc)
         else:
             if foundSolution:
                 solution = {}
                 for variable, domain in repository.getDomains().items():
                     solution[variable] = domain.getValues()[0]
                 if verbose:
-                    print strftime('%H:%M:%S'), '### Found Solution', solution
-                    print '-'*80
+                    self.printer( strftime('%H:%M:%S'), '### Found Solution', solution)
+                    self.printer( '-'*80)
                 yield solution
             else:
                 self.distrib_cnt += 1
@@ -305,10 +315,10 @@ class Solver(Psyobj):
                             yield solution
                             
         if recursion_level == 0 and self.verbose:
-            print strftime('%H:%M:%S'),'Finished search'
-            print strftime('%H:%M:%S'),
-            print 'Maximum recursion depth = ', self.max_depth
-            print 'Nb distributions = ', self.distrib_cnt
+            self.printer( strftime('%H:%M:%S'),'Finished search')
+            self.printer( strftime('%H:%M:%S'), 'Maximum recursion depth = ',
+                self.max_depth)
+            self.printer( 'Nb distributions = ', self.distrib_cnt)
 
         
 
