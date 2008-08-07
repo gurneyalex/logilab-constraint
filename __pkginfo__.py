@@ -18,7 +18,7 @@ http://www.logilab.fr/ -- mailto:contact@logilab.fr
 modname = 'constraint'
 distname = 'logilab-constraint'
 
-numversion = (0, 3, 0)
+numversion = (0, 4, 0)
 version = '.'.join(map(str, numversion))
 pyversions = ('2.3', '2.4')
 

@@ -1,7 +1,7 @@
 ChangeLog for logilab.constraint
 ================================
 
-  --  
+2008-08-07  --  0.4.0
     * allow capture of solver output
 
 
