@@ -1,3 +1,11 @@
+constraint (0.4.0-2) unstable; urgency=low
+
+  * updated debian standards to 3.7.2
+  * add debian/compat (5)
+  * remove deprecated dh_python
+
+ -- Sylvain Thénault <sylvain.thenault@logilab.fr>  Fri, 08 Aug 2008 07:49:45 +0200
+
 constraint (0.4.0-1) unstable; urgency=low
 
   * new upstream release
