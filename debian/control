@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Alexandre Fayolle <afayolle@debian.org> 
 Build-Depends: debhelper (>= 5.0.37.2), python (>=2.3.5-7), python-central (>=0.5)
 XS-Python-Version: all
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: python-constraint
 Architecture: all
@@ -18,5 +18,5 @@ Description: constraints satisfaction solver in Python
  values, finite interval domains, and constraints which can be applied
  to variables linked to these domains.
  .
- Homepage: http://www.logilab.org/projects/constraint
+ Homepage: http://www.logilab.org/project/logilab-constraint
 
