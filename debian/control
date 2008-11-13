@@ -4,19 +4,17 @@ Priority: optional
 Maintainer: Alexandre Fayolle <afayolle@debian.org> 
 Build-Depends: debhelper (>= 5.0.37.2), python (>=2.3.5-7), python-central (>=0.5)
 XS-Python-Version: all
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 
 Package: python-constraint
 Architecture: all
 Suggests: python-psyco
 Depends: ${python:Depends}, python-logilab-common (>= 0.16.1-2)
 XB-Python-Version: ${python:Versions}
+Homepage: http://www.logilab.org/project/logilab-constraint
 Description: constraints satisfaction solver in Python
  Extensible constraint satisfaction problem solver written in pure
  Python, using constraint propagation algorithms. The
  logilab.constraint module provides finite domains with arbitrary
  values, finite interval domains, and constraints which can be applied
  to variables linked to these domains.
- .
- Homepage: http://www.logilab.org/project/logilab-constraint
-
