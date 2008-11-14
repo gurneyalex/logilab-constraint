@@ -1,4 +1,4 @@
-constraint (0.4.0-2) unstable; urgency=low
+constraint (0.4.0-2) DISTRIBUTION; urgency=low
 
   * updated debian standards to 3.7.2
   * add debian/compat (5)
