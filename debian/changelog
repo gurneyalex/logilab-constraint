@@ -2,7 +2,8 @@ constraint (0.4.0-3) unstable; urgency=low
 
   * Moved to Alioth's Python Module Packaging team
   * Updated debian/watch
-  * Moved packaging to pysupport (closes: #522883), fixed dependency on python-logilab-common
+  * Moved packaging to pysupport (closes: #522883), fixed dependency on 
+    python-logilab-common
   * upload to Debian of version 0.4
   
   
