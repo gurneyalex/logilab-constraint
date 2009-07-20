@@ -33,7 +33,7 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	python setup.py -q install --no-compile --prefix=debian/python-constraint/usr/ --install-headers=debian/python-constraint/usr/include/ 
+	python setup.py -q install --no-compile --root=debian/python-constraint  --install-headers=debian/python-constraint/usr/include/ --install-scripts=usr/bin
 	# remove sub-package __init__ file (created by another package)
 	rm debian/python-constraint/usr/lib/python*/site-packages/logilab/__init__.py
 	# remove test directory (installed in in the doc directory)
@@ -47,7 +47,7 @@ binary-indep: build install
 	dh_testdir 
 	dh_testroot 
 	dh_install -i
-	dh_pycentral -i
+	dh_pysupport -i
 	dh_installexamples -i
 	gzip -9 -c ChangeLog > changelog.gz
 	dh_installchangelogs -i
