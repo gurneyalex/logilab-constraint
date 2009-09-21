@@ -1,13 +1,63 @@
+logilab-constraint (0.4.0-4) unstable; urgency=medium
+
+  [ Alexandre Fayolle ]
+  * debian/control 
+    - renamed binary package to python-logilab-constraint, added Provides,
+    Replaces, Conflicts for transition (closes: #523107)
+
+  [ Julien Lavergne ]
+  * From Ubuntu, prepare for the future python 2.6 transition:
+   - debian/rules: Add --install-layout=deb to setup.py install to install to
+     the right location.
+   - debian/control: Bump build-depends to python (>= 2.5.4-1~)
+     for --install-layout=deb support.
+
+  [ Mauro Lizaur ]
+  * debian/control 
+   - modified python-constraint to be just a dummy transitional 
+     package depending on the (new) python-logilab-constraint. 
+     Also, added against which version Replaces/Conflicts.
+
+  [ Sandro Tosi ]
+  * debian/python-logilab-constraint.*
+    - renamed from python-constraint.*
+  * debian/rules
+    - fixed for binary package rename
+    - properly install upstream changelog
+  * debian/control
+    - added me to uploaders
+    - bump Standards-Version to 3.8.3 (no changes needed)
+    - bump versioned depends on python-logilab-common (to better handling the
+      migration pycentral->pysupport, hence the severity)
+    - rename source package from constraint to logilab-constraint
+  * debian/constraint-test.dirs
+    - removed, not needed
+  * debian/copyright
+    - clearly separated license and copyright
+    - indent upstream author, license and copyright with 4 spaces
+    - link to GPL-2 local file
+    - extended copyright years to match all the files in the tarball
+  * debian/python-logilab-constraint.{postinst, prerm}
+    - removed since empty
+
+ -- Sandro Tosi <morph@debian.org>  Tue, 15 Sep 2009 19:12:19 +0200
+
 constraint (0.4.0-3) unstable; urgency=low
 
+  [ Alexandre Fayolle ]
   * Moved to Alioth's Python Module Packaging team
   * Updated debian/watch
-  * Moved packaging to pysupport (closes: #522883), fixed dependency on 
+  * Moved packaging to pysupport (closes: #522883), fixed dependency on
     python-logilab-common
   * upload to Debian of version 0.4
   
-  
- -- Alexandre Fayolle <afayolle@debian.org>  Tue, 07 Apr 2009 09:51:19 +0200
+  [ Sandro Tosi]
+  * debian/watch
+    - fixed
+  * debian/control
+    - moved python b-d to b-d-i (lintian warning)
+
+ -- Alexandre Fayolle <afayolle@debian.org>  Tue, 07 Apr 2009 23:17:04 +0200
 
 constraint (0.4.0-2) unstable; urgency=low
 

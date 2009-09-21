@@ -33,13 +33,17 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	python setup.py -q install --no-compile --root=debian/python-constraint  --install-headers=debian/python-constraint/usr/include/ --install-scripts=usr/bin
+	python setup.py -q install --no-compile \
+		--root=debian/python-logilab-constraint  \
+		--install-headers=debian/python-logilab-constraint/usr/include/ \
+		--install-scripts=usr/bin \
+		--install-layout=deb
 	# remove sub-package __init__ file (created by another package)
-	rm debian/python-constraint/usr/lib/python*/site-packages/logilab/__init__.py
+	rm debian/python-logilab-constraint/usr/lib/python*/site-packages/logilab/__init__.py
 	# remove test directory (installed in in the doc directory)
-	rm -rf debian/python-constraint/usr/lib/python*/site-packages/logilab/constraint/test
+	rm -rf debian/python-logilab-constraint/usr/lib/python*/site-packages/logilab/constraint/test
 	# install tests
-	(cd test && find . -type f -not \( -path '*/CVS/*' -or -name '*.pyc' \) -exec install -D --mode=644 {} ../debian/python-constraint/usr/share/doc/python-constraint/test/{} \;)
+	(cd test && find . -type f -not \( -path '*/CVS/*' -or -name '*.pyc' \) -exec install -D --mode=644 {} ../debian/python-logilab-constraint/usr/share/doc/python-logilab-constraint/test/{} \;)
 
 
 # Build architecture-independent files here.
@@ -49,9 +53,8 @@ binary-indep: build install
 	dh_install -i
 	dh_pysupport -i
 	dh_installexamples -i
-	gzip -9 -c ChangeLog > changelog.gz
-	dh_installchangelogs -i
-	dh_installdocs -i README changelog.gz
+	dh_installchangelogs -i ChangeLog
+	dh_installdocs -i README
 	dh_installman -i
 	dh_link -i
 	dh_compress -i -X.py -X.ini -X.xml -Xtest
