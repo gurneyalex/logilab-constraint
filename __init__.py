@@ -10,8 +10,7 @@ Constraint Satisfaction Problem (CSP) Solver in Python.
   mailto:python-projects@logilab.org
 
 :license:
-  `General Public License version 2
-  <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>`_
+  `Lesser General Public License version 2`
 """
 
 from logilab.constraint.__pkginfo__ import version as __version__

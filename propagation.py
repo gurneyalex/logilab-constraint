@@ -15,7 +15,6 @@
 # 59 Temple Place - Suite 330, Boston, MA  02111-1307
 # USA.
 """The code of the constraint propagation algorithms"""
-
 from __future__ import generators
 from operator import mul as MUL
 from time import strftime
