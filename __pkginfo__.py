@@ -22,8 +22,8 @@ numversion = (0, 4, 0)
 version = '.'.join(map(str, numversion))
 pyversions = ('2.3', '2.4','2.5', '2.6')
 
-license = 'GPL'
-copyright = '''Copyright (c) 2001-2009 LOGILAB S.A. (Paris, FRANCE).
+license = 'LGPL'
+copyright = '''Copyright (c) 2001-2010 LOGILAB S.A. (Paris, FRANCE).
 http://www.logilab.fr/ -- mailto:contact@logilab.fr'''
 
 short_desc = "constraints satisfaction solver in Python"
