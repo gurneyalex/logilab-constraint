@@ -3,5 +3,6 @@ recursive-include doc *.html
 include doc/CONTRIBUTORS
 include ChangeLog
 include COPYING
+include COPYING.LESSER
 include README
 recursive-include examples *.py
