@@ -17,7 +17,7 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """Validation testing for constraint propagation module"""
 
-from logilab.common.testlib import TestCase
+from logilab.common.testlib import TestCase, unittest_main
 
 from logilab.constraint import *
 from logilab.constraint.distributors import EnumeratorDistributor
@@ -98,3 +98,5 @@ if os.environ.get('PYLINT_IMPORT') != '1':
         size=10
         nb_sols=724
 
+if __name__ == '__main__':
+    unittest_main()
