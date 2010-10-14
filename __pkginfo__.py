@@ -20,7 +20,7 @@
 modname = 'constraint'
 distname = 'constraint'
 
-numversion = (0, 4, 0)
+numversion = (0, 4, 1)
 version = '.'.join(map(str, numversion))
 pyversions = ('2.3', '2.4','2.5', '2.6')
 
