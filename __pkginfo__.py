@@ -18,7 +18,7 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 
 modname = 'constraint'
-distname = 'constraint'
+distname = modname
 
 numversion = (0, 4, 1)
 version = '.'.join(map(str, numversion))
