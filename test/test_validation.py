@@ -50,24 +50,24 @@ class Queens8_TC(TestCase):
                     constraints.append(c)
         self.repo = Repository(variables,domains,constraints)
         sys.stdout = StringIO()
-    
+
     def tearDown(self):
         sys.stdout = sys.__stdout__
 
     def testQueensWithEnumerator(self):
-        self.skip("to long")
+        self.skip("too long")
         solver = Solver(EnumeratorDistributor())
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
 
     def testQueensWithDefaultDistributor(self):
-        self.skip("to long")
+        self.skip("too long")
         solver = Solver()
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
 
 
-    
+
 class Queens4_TC(Queens8_TC):
     size=4
     nb_sols=2
