@@ -158,8 +158,8 @@ class SolverBest_TC(TestCase):
         sorted_costs = costs[:]
         sorted_costs.sort()
         sorted_costs.reverse()
-        self.assertEquals(costs, sorted_costs)
-        self.assertEquals(costs, [s[1] for s in solutions])
+        self.assertEqual(costs, sorted_costs)
+        self.assertEqual(costs, [s[1] for s in solutions])
 
 
 

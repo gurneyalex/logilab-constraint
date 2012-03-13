@@ -116,11 +116,11 @@ class AllDistinctTC(AbstractConstraintTC):
         vt = domains['t'].getValues()
         vu = domains['u'].getValues()
         self.failUnless(entailed)
-        self.assertEquals([1],  vx)
-        self.assertEquals([2], vy)
-        self.assertEquals([3], vz)
-        self.assertEquals([5], vt)
-        self.assertEquals([4], vu)
+        self.assertEqual([1],  vx)
+        self.assertEqual([2], vy)
+        self.assertEqual([3], vz)
+        self.assertEqual([5], vt)
+        self.assertEqual([4], vu)
 
     def testFailure1(self):
         domains = {'x':fd.FiniteDomain((1,2)),
