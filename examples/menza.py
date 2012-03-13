@@ -41,7 +41,7 @@ class DistinctDigits(BasicConstraint,psyobj):
         return 1
 
     def __repr__(self):
-        
+
         return '<DistinctDigits on variable %s>'%self._variable
 
 
@@ -56,7 +56,7 @@ def menza() :
 
     domains['a'] = fd.FiniteDomain(range(0,1000))
     domains['b'] = fd.FiniteDomain(range(0,100))
-    
+
     me = fd.make_expression
 
     for v in variables:
@@ -80,7 +80,7 @@ if __name__ == '__main__' :
         elif o == '-d':
             display = 1
 
-    
+
     r = create_problem()
     print 'problem created. let us solve it.'
     s = []

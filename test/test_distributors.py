@@ -38,11 +38,11 @@ class AbstractDistributorTC(TestCase):
                         'v3':fd.FiniteDomain([7,8,9,10,11,12,13]),
                          }
         self.distributor = self.buildDistributor()
-        
+
     def buildDistributor(self):
         """returns a distributor"""
         raise NotImplementedError
-    
+
     def distributionAssertions(self):
         """checks the distribution"""
         raise NotImplementedError
@@ -66,14 +66,14 @@ class AbstractDistributorTC(TestCase):
             distributed_domains = self.distributor.distribute(self.domains1)
             for d in distributed_domains:
                 assert d['v1'].size() == initial_domain['v1'].size()
-    
+
 
     def testDistribution(self):
         """tests that the right domain is correctly distributed"""
         for initial_domain in (self.domains1,self.domains2):
             distributed_domains = self.distributor.distribute(initial_domain)
             self.distributionAssertions(initial_domain,distributed_domains)
-            
+
 class NaiveDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
         return distributors.NaiveDistributor()
@@ -88,7 +88,7 @@ class NaiveDistributorTC(AbstractDistributorTC):
 class RandomizingDistributorTC(NaiveDistributorTC):
     def buildDistributor(self):
         return distributors.RandomizingDistributor()
-    
+
 
 class DichotomyDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
@@ -98,7 +98,7 @@ class DichotomyDistributorTC(AbstractDistributorTC):
         for d in distributed:
             for v in ('v1','v3'):
                 assert d[v].getValues() == initial[v].getValues()
-        assert distributed[0]['v2'].size() + distributed[1]['v2'].size() == initial['v2'].size() 
+        assert distributed[0]['v2'].size() + distributed[1]['v2'].size() == initial['v2'].size()
 
 class SplitDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
@@ -111,7 +111,7 @@ class SplitDistributorTC(AbstractDistributorTC):
         sizes = [d['v2'].size() for d in distributed]
         import operator
         tot_size = reduce(operator.add,sizes)
-        assert tot_size == initial['v2'].size() 
+        assert tot_size == initial['v2'].size()
 
 class EnumeratorDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
@@ -143,7 +143,7 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    
+
     return TestSuite(suites)
 
 if __name__ == '__main__':

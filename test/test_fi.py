@@ -82,7 +82,7 @@ class FiniteIntervalTC(TestCase):
         self.dom1.setLowestMin(2)
         self.assertEquals(self.dom1.lowestMin, 2)
         self.assertRaises(ConsistencyFailure, self.dom1.setLowestMin, 10)
-        
+
     def test_SetHigh(self):
         self.dom1.setHighestMax(9)
         self.assertEquals(self.dom1.highestMax, 9)
@@ -109,7 +109,7 @@ class FiniteIntervalTC(TestCase):
         self.assertEquals(self.dom1.highestMin, 8)
         self.assertEquals(self.dom2.highestMin, 2)
         self.assertEquals(self.dom3.highestMin, 4)
-        
+
     def test_EarliestEnd(self):
         self.assertEquals(self.dom1.lowestMax, 2)
         self.assertEquals(self.dom2.lowestMax, 5)
@@ -153,7 +153,7 @@ class ConstraintOverlapTC(TestCase):
                         }
 
     # consistency failure
-    
+
     def test_NoOverlap_ConsistencyFailure(self):
         c = NoOverlap('v2', 'v3')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
@@ -173,7 +173,7 @@ class ConstraintOverlapTC(TestCase):
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
 
     # entailed
-    
+
     def test_NoOverlap_Entailed(self):
         c = NoOverlap('v6', 'v4')
         self.assertEquals(c.narrow(self.domains), 1)
@@ -185,13 +185,13 @@ class ConstraintOverlapTC(TestCase):
         self.assertEquals(c.narrow(self.domains), 1)
         c = NoOverlap('v3', 'v1')
         self.assertEquals(c.narrow(self.domains), 1)
-        
+
     def test_NoOverlap_Entailed2(self):
         c = NoOverlap('v7', 'v8')
         self.assertEquals(c.narrow(self.domains), 1)
         self.assertEquals(self.d7, FiniteIntervalDomain(0,4,4))
         self.assertEquals(self.d8, FiniteIntervalDomain(4,8,4))
-        
+
     def test_NoOverlap_Entailed2bis(self):
         c = NoOverlap('v8', 'v7')
         self.assertEquals(c.narrow(self.domains), 1)
@@ -223,7 +223,7 @@ class ConstraintOverlapTC(TestCase):
         self.assertEquals(self.d13, FiniteIntervalDomain(3,6,3))
 
     # not entailed
-    
+
     def test_NoOverlap_NotEntailed(self):
         c = NoOverlap('v4', 'v1')
         self.assertEquals(c.narrow(self.domains), 0)
@@ -262,7 +262,7 @@ class ConstraintOverlapTC(TestCase):
         c3 = NoOverlap('v15', 'v12')
         d = {c1 : 'hello', c2 : 'hello', c3 : 'hello'}
         self.assertEquals(len(d), 2)
-        
+
 
 class ConstraintTC(TestCase):
     def setUp(self):
@@ -303,7 +303,7 @@ class ConstraintTC(TestCase):
         c = StartsBeforeStart('v2','v3')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 1)
-        
+
     ##
     ## StartsBeforeEnd
     ##
@@ -311,16 +311,16 @@ class ConstraintTC(TestCase):
         c = StartsBeforeEnd('v2','v1')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 0)
-        
+
     def test_StartsBeforeEnd_ConsistencyFailure(self):
         c = StartsBeforeEnd('v3','v2')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
-        
+
     def test_StartsBeforeEnd_Entailed(self):
         c = StartsBeforeEnd('v4', 'v1')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 1)
-        
+
     ##
     ## EndsBeforeStart
     ##
@@ -328,22 +328,22 @@ class ConstraintTC(TestCase):
         c = EndsBeforeStart('v2','v3')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 1)
-        
+
     def test_EndsBeforeStart_NotEntailed(self):
         c = EndsBeforeStart('v3','v1')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 0)
-        
+
     def test_EndsBeforeStart_NotEntailed_withRemoval(self):
         c = EndsBeforeStart('v1','v3')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 0)
         self.assertEquals(self.d1.highestMax, self.d3.highestMin)
-        
+
     def test_EndsBeforeStart_ConsistencyFailure(self):
         c = EndsBeforeStart('v3','v2')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
-        
+
     ##
     ## EndsBeforeEnd
     ##
@@ -351,7 +351,7 @@ class ConstraintTC(TestCase):
         c = EndsBeforeEnd('v2','v3')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 1)
-        
+
     def test_EndsBeforeEnd_NotEntailed(self):
         c = EndsBeforeEnd('v2','v1')
         ret = c.narrow(self.domains)
@@ -391,7 +391,7 @@ class ConstraintTC(TestCase):
     def test_StartsAfterStart_ConsistencyFailure(self):
         c = StartsAfterStart('v2','v3')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
-        
+
     ##
     ## StartsAfterEnd
     ##
@@ -409,7 +409,7 @@ class ConstraintTC(TestCase):
     def test_StartsAfterEnd_ConsistencyFailure(self):
         c = StartsAfterEnd('v2','v3')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
-        
+
     ##
     ## EndsAfterStart
     ##
@@ -417,7 +417,7 @@ class ConstraintTC(TestCase):
         c = EndsAfterStart('v4','v2')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 1)
-        
+
     def test_EndsAfterStart_NotEntailed(self):
         c = EndsAfterStart('v4','v3')
         ret = c.narrow(self.domains)
@@ -426,7 +426,7 @@ class ConstraintTC(TestCase):
     def test_EndsAfterStart_ConsistencyFailure(self):
         c = EndsAfterStart('v2','v3')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
-        
+
 
     ##
     ## EndsAfterEnd
@@ -440,12 +440,12 @@ class ConstraintTC(TestCase):
         c = EndsAfterEnd('v4','v3')
         ret = c.narrow(self.domains)
         self.assertEquals(ret, 0)
-        
+
     def test_EndsAfterEnd_ConsistencyFailure(self):
         c = EndsAfterEnd('v2','v3')
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
 
-        
+
 class DistributorTC(TestCase):
     def setUp(self):
         self.d = FiniteIntervalDistributor()
@@ -480,13 +480,13 @@ class DistributorTC(TestCase):
         self.assertEquals(dom1["v1"].highestMax, d1._min_length + d1.lowestMin)
         self.assertEquals(dom2["v1"].lowestMin, d1._resolution + d1.lowestMin)
         self.assertEquals(d1.size(), dom1['v1'].size() + dom2['v1'].size())
-        
+
 
 class PlannerTC(TestCase):
     def setUp(self):
         self.d = FiniteIntervalDistributor()
         self.verbose = 1
-        
+
     def solve_repo1(self, constraints):
         dom1 = FiniteIntervalDomain(0, 15, 5)
         dom2 = FiniteIntervalDomain(0, 15, 5)

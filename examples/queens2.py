@@ -52,7 +52,7 @@ def queens(size=8,verbose=0,distrib="enum"):
                                    '%(q1)s != %(q2)s and '
                                    '%(diag)s != abs(%(q1)s-%(q2)s)'% D )
             constraints.append(c)
-                
+
     r = Repository(variables,domains,constraints)
     Distrib = distributors[distrib]
     for sol in Solver(Distrib()).solve_all(r,verbose):

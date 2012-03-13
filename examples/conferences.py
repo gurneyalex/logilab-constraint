@@ -20,8 +20,8 @@
 # import Repository, ListDomain and MathematicConstraint
 from logilab.constraint import *
 variables = ('c01','c02','c03','c04','c05','c06','c07','c08','c09','c10')
-values = [(room,slot) 
-          for room in ('room A','room B','room C') 
+values = [(room,slot)
+          for room in ('room A','room B','room C')
           for slot in ('day 1 AM','day 1 PM','day 2 AM','day 2 PM')]
 domains = {}
 for v in variables:

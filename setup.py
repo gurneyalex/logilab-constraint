@@ -33,11 +33,11 @@ try:
     from setuptools import setup
     from setuptools.command import install_lib
     USE_SETUPTOOLS = 1
-except ImportError:    
+except ImportError:
     from distutils.core import setup
     from distutils.command import install_lib
     USE_SETUPTOOLS = 0
-    
+
 
 # import required features
 from __pkginfo__ import modname, version, license, short_desc, long_desc, \
@@ -80,7 +80,7 @@ STD_BLACKLIST = ('CVS', '.svn', '.hg', 'debian', 'dist', 'build')
 
 IGNORED_EXTENSIONS = ('.pyc', '.pyo', '.elc', '~')
 
-    
+
 
 def ensure_scripts(linux_scripts):
     """
@@ -181,7 +181,7 @@ class MyInstallLib(install_lib.install_lib):
             for directory in include_dirs:
                 dest = join(self.install_dir, base, directory)
                 export(directory, dest)
-        
+
 def install(**kwargs):
     """setup entry point"""
     if subpackage_of:
@@ -211,6 +211,6 @@ def install(**kwargs):
                  cmdclass = {'install_lib': MyInstallLib},
                  **kwargs
                  )
-            
+
 if __name__ == '__main__' :
     install()

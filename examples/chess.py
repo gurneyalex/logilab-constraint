@@ -25,7 +25,7 @@ class ChessDomain(fd.FiniteDomain):
     def __init__(self, size):
         values = [(i,j) for i in range(size) for j in range(size)]
         fd.FiniteDomain.__init__(self, values)
-    
+
     def __repr__(self):
         vals = self.getValues()
         vals.sort()
@@ -46,7 +46,7 @@ class QueensConstraint(AbstractConstraint):
         var2 = self._variables[1]
         dom2 = domains[var2]
         values2 = dom2.getValues()
-            
+
         keep1 = {}
         keep2 = {}
         maybe_entailed = 1
@@ -68,12 +68,12 @@ class QueensConstraint(AbstractConstraint):
 
         try:
             dom1.removeValues([val for val in values1 if val not in keep1])
-            dom2.removeValues([val for val in values2 if val not in keep2])            
+            dom2.removeValues([val for val in values2 if val not in keep2])
         except ConsistencyFailure:
             raise ConsistencyFailure('Inconsistency while applying %s' % \
                                      repr(self))
         except Exception:
             print self, kwargs
-            raise 
+            raise
         return maybe_entailed
-            
+

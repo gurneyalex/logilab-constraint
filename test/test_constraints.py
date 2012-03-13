@@ -42,13 +42,13 @@ class AbstractConstraintTC(TestCase):
         for v in self.relevant_variables:
             self.assert_(self.constraint.isVariableRelevant(v))
         self.failIf(self.constraint.isVariableRelevant(self.irrelevant_variable))
-        
+
 
     def testNarrowing(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
         self.narrowingAssertions()
-        
+
     def testEntailment(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.entailed_domains)
@@ -62,7 +62,7 @@ class AllDistinctTC(AbstractConstraintTC):
         self.domains = {'x':fd.FiniteDomain((1,2)),
                         'y':fd.FiniteDomain((1,3)),
                         'z':fd.FiniteDomain((1,4)),}
-        
+
         self.entailed_domains = {'x':fd.FiniteDomain((1,)),
                                  'y':fd.FiniteDomain((1,2)),
                                  'z':fd.FiniteDomain((1,2,3)),}
@@ -156,7 +156,7 @@ class AllDistinctTC(AbstractConstraintTC):
         assert exception
 
 
-    
+
 class UnaryMathConstrTC(AbstractConstraintTC):
     def setUp(self):
         self.relevant_variables = ['x']
@@ -200,7 +200,7 @@ class TernaryMathConstrTC(AbstractConstraintTC):
         self.entailed_domains = {'x':fd.FiniteDomain([2]),
                                  'y':fd.FiniteDomain([0]),
                                  'z':fd.FiniteDomain([2,3]),}
-        
+
 
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
@@ -232,12 +232,12 @@ class AbstractBasicConstraintTC(TestCase):
     def testGetVariable(self):
         """test that getVariable returns the right variable"""
         assert self.constraint.getVariable() == 'x'
-        
+
     def testNarrowing(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
         self.narrowingAssertions()
-        
+
     def testEntailment(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
@@ -325,7 +325,7 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    
+
     return TestSuite(suites)
 
 if __name__ == '__main__':

@@ -49,8 +49,8 @@ class Repository_TC(TestCase):
         finally:
             os.unlink('toto.vcg')
 
-        
-        
+
+
     def testGetDomains(self):
         doms = self.repo.getDomains()
         self.assertEqual(doms, self.domains)
@@ -148,7 +148,7 @@ class SolverBest_TC(TestCase):
 
     def costFunc(self, a,b,c):
         return -(a*a+b*b+c*c)
-    
+
     def testSolveBest(self):
         solutions = []
         for s in self.solver.solve_best(self.repo, self.costFunc):
@@ -161,7 +161,7 @@ class SolverBest_TC(TestCase):
         self.assertEquals(costs, sorted_costs)
         self.assertEquals(costs, [s[1] for s in solutions])
 
-                         
+
 
 if __name__ == '__main__':
     unittest.main()

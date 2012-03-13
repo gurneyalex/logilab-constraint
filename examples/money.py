@@ -56,7 +56,7 @@ def display_solution(d):
         print '+ MORE\t  \t','+ %(m)d%(o)d%(r)d%(e)d'%s
         print '------\t-->\t','------'
         print ' MONEY\t  \t',' %(m)d%(o)d%(n)d%(e)d%(y)d'%s
-        print 
+        print
 
 if __name__ == '__main__':
     import sys, getopt

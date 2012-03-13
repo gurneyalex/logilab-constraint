@@ -45,7 +45,7 @@ class AbstractDomainTC(TestCase):
         assert self.domain.size() == len(self.values)
         self.domain.removeValue(self.values[0])
         assert self.domain.size() == len(self.values) - 1
-        
+
     def testRemove(self):
         """tests the removeValue() method"""
         self.domain.removeValue(self.values[0])
@@ -89,7 +89,7 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    
+
     return TestSuite(suites)
 
 if __name__ == '__main__':
