@@ -18,11 +18,12 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint import fd
 from logilab.constraint import propagation
 from logilab.constraint import distributors
 
-class AbstractDomainTC(unittest.TestCase):
+class AbstractDomainTC(TestCase):
     """override the following methods:
      * setUp to initialize variables
      """
@@ -75,7 +76,7 @@ def get_all_cases(module):
     for name in dir(module):
         obj = getattr(module, name)
         if type(obj) in (types.ClassType, types.TypeType) and \
-               issubclass(obj, unittest.TestCase) and \
+               issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
     all_cases.sort()
@@ -88,8 +89,8 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    return unittest.TestSuite(suites)
     
+    return TestSuite(suites)
 
 if __name__ == '__main__':
     unittest.main(defaultTest="suite")

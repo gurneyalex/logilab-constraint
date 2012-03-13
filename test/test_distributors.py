@@ -18,10 +18,11 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint import distributors,fd
 
 
-class AbstractDistributorTC(unittest.TestCase):
+class AbstractDistributorTC(TestCase):
     """override the following methods:
      * buildDistributor to create the distributor
      * distributionAssertions to check that distribution was OK
@@ -129,7 +130,7 @@ def get_all_cases(module):
     for name in dir(module):
         obj = getattr(module, name)
         if type(obj) in (types.ClassType, types.TypeType) and \
-               issubclass(obj, unittest.TestCase) and \
+               issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
     all_cases.sort()
@@ -142,8 +143,8 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    return unittest.TestSuite(suites)
     
+    return TestSuite(suites)
 
 if __name__ == '__main__':
     unittest.main(defaultTest="suite")

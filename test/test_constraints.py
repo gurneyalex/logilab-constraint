@@ -18,12 +18,13 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint import fd
 from logilab.constraint import propagation
 from logilab.constraint import distributors
 
 
-class AbstractConstraintTC(unittest.TestCase):
+class AbstractConstraintTC(TestCase):
     """override the following methods:
      * setUp to initialize variables
      * narrowingAssertions to check that narrowing was ok
@@ -212,7 +213,7 @@ class TernaryMathConstrTC(AbstractConstraintTC):
         v.sort()
         assert v == [2,3],str(v)
 
-class AbstractBasicConstraintTC(unittest.TestCase):
+class AbstractBasicConstraintTC(TestCase):
     """override the following methods:
      * setUp to initialize variables
      * narrowingAssertions to check that narrowing was ok
@@ -311,7 +312,7 @@ def get_all_cases(module):
     for name in dir(module):
         obj = getattr(module, name)
         if type(obj) in (types.ClassType, types.TypeType) and \
-               issubclass(obj, unittest.TestCase) and \
+               issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
     all_cases.sort()
@@ -324,8 +325,8 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    return unittest.TestSuite(suites)
     
+    return TestSuite(suites)
 
 if __name__ == '__main__':
     unittest.main(defaultTest="suite")

@@ -18,12 +18,13 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 import os
 from logilab.constraint.propagation import *
 from logilab.constraint import fd
 from logilab.constraint.distributors import DefaultDistributor
 
-class Repository_TC(unittest.TestCase):
+class Repository_TC(TestCase):
     def setUp(self):
         self.domains = {}
         self.variables = list('abcdef')
@@ -89,7 +90,7 @@ class Repository_TC(unittest.TestCase):
             pass
 
 
-class Sover_TC(unittest.TestCase):
+class Sover_TC(TestCase):
     def setUp(self):
         self.solver = Solver()
         self.domains = {}
@@ -130,7 +131,7 @@ class Sover_TC(unittest.TestCase):
                          [])
 
 
-class SolverBest_TC(unittest.TestCase):
+class SolverBest_TC(TestCase):
     def setUp(self):
         self.solver = Solver()
         self.domains = {}

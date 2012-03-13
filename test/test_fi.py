@@ -18,10 +18,11 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint.fi import *
 from logilab.constraint import Repository, Solver
 
-class FiniteIntervalTC(unittest.TestCase):
+class FiniteIntervalTC(TestCase):
 
     def setUp(self):
         self.dom1 = FiniteIntervalDomain(0, 10, 2, 4, 1)
@@ -115,7 +116,7 @@ class FiniteIntervalTC(unittest.TestCase):
         self.assertEquals(self.dom3.lowestMax, 4)
 
 # FIXME check all possible cases are handled
-class ConstraintOverlapTC(unittest.TestCase):
+class ConstraintOverlapTC(TestCase):
     def setUp(self):
         self.d1 = FiniteIntervalDomain(0, 5, 2)
         self.d2 = FiniteIntervalDomain(0, 5, 3)
@@ -263,7 +264,7 @@ class ConstraintOverlapTC(unittest.TestCase):
         self.assertEquals(len(d), 2)
         
 
-class ConstraintTC(unittest.TestCase):
+class ConstraintTC(TestCase):
     def setUp(self):
         self.d1 = FiniteIntervalDomain(5, 10, 1, 1)
         self.d2 = FiniteIntervalDomain(2,  7, 1, 1)
@@ -445,7 +446,7 @@ class ConstraintTC(unittest.TestCase):
         self.assertRaises(ConsistencyFailure, c.narrow, self.domains)
 
         
-class DistributorTC(unittest.TestCase):
+class DistributorTC(TestCase):
     def setUp(self):
         self.d = FiniteIntervalDistributor()
 
@@ -481,7 +482,7 @@ class DistributorTC(unittest.TestCase):
         self.assertEquals(d1.size(), dom1['v1'].size() + dom2['v1'].size())
         
 
-class PlannerTC(unittest.TestCase):
+class PlannerTC(TestCase):
     def setUp(self):
         self.d = FiniteIntervalDistributor()
         self.verbose = 1
