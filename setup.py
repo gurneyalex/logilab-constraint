@@ -28,6 +28,8 @@ import shutil
 from os.path import isdir, exists, join, walk
 
 try:
+    if os.environ.get('NO_SETUPTOOLS'):
+        raise ImportError()
     from setuptools import setup
     from setuptools.command import install_lib
     USE_SETUPTOOLS = 1
