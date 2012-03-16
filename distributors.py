@@ -20,7 +20,6 @@
 distributors - part of Logilab's constraint satisfaction solver.
 """
 
-from logilab.constraint.psyco_wrapper import Psyobj
 from logilab.constraint.interfaces import DistributorInterface
 import math, random
 
@@ -31,7 +30,7 @@ def make_new_domains(domains):
         domain[key] = value.copy()
     return domain
 
-class AbstractDistributor(Psyobj):
+class AbstractDistributor(object):
     """Implements DistributorInterface but abstract because
     _distribute is left unimplemented."""
 

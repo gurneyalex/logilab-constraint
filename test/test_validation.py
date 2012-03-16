@@ -92,15 +92,13 @@ class Queens6Verbose_TC(Queens6_TC):
     verbose = 3
 
 
-# remove if we are running with pylint, 'cos this gets too long without psyco
-if os.environ.get('PYLINT_IMPORT') != '1':
-    class Queens9_TC(Queens8_TC):
-        size=9
-        nb_sols=352
+class Queens9_TC(Queens8_TC):
+    size=9
+    nb_sols=352
 
-    class Queens10_TC(Queens8_TC):
-        size=10
-        nb_sols=724
+class Queens10_TC(Queens8_TC):
+    size=10
+    nb_sols=724
 
 if __name__ == '__main__':
     unittest_main()

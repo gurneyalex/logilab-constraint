@@ -23,10 +23,9 @@ ABC*DE=FGHIJ with all letters different and in domain [0,9]
 from __future__ import generators
 
 from logilab.constraint import *
-from logilab.constraint.psyco_wrapper import psyobj
 from logilab.constraint.propagation import BasicConstraint, ConsistencyFailure
 
-class DistinctDigits(BasicConstraint,psyobj):
+class DistinctDigits(BasicConstraint):
     def __init__(self,variable):
         BasicConstraint.__init__(self,variable,None,None)
 

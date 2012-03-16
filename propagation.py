@@ -20,7 +20,6 @@ from __future__ import generators
 from operator import mul as MUL
 from time import strftime
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
-from logilab.constraint.psyco_wrapper import Psyobj
 
 def _default_printer(*msgs):
     for msg in msgs[:-1]:
@@ -34,7 +33,7 @@ class ConsistencyFailure(Exception):
     """The repository is not in a consistent state"""
     pass
 
-class Repository(Psyobj):
+class Repository(object):
     """Stores variables, domains and constraints
     Propagates domain changes to constraints
     Manages the constraint evaluation queue"""
@@ -230,7 +229,7 @@ class Repository(Psyobj):
                 return 0
         return 1
 
-class Solver(Psyobj):
+class Solver(object):
     """Top-level object used to manage the search"""
 
     def __init__(self, distributor=None, printer=_default_printer):
@@ -249,9 +248,7 @@ class Solver(Psyobj):
         self.max_depth = 0
         self.distrib_cnt = 0
         try:
-            # XXX  FIXME: this is a workaround a bug in psyco-1.4
-##             return  self._solve(repository).next()
-            return  self._solve(repository, 0).next()
+            return  self._solve(repository).next()
         except StopIteration:
             return
 
@@ -261,9 +258,7 @@ class Solver(Psyobj):
         self.max_depth = 0
         self.distrib_cnt = 0
         best_cost = None
-            # XXX  FIXME: this is a workaround a bug in psyco-1.4
-##        for solution in self._solve(repository):
-        for solution in self._solve(repository, 0):
+        for solution in self._solve(repository):
             cost = cost_func(**solution)
             if best_cost is None or cost <= best_cost:
                 best_cost = cost
@@ -329,7 +324,7 @@ class Solver(Psyobj):
 
 
 
-class BasicConstraint(Psyobj):
+class BasicConstraint(object):
     """A BasicConstraint, which is never queued by the Repository
     A BasicConstraint affects only one variable, and will be entailed
     on the first call to narrow()"""
@@ -372,7 +367,7 @@ class BasicConstraint(Psyobj):
         return 1
 
 
-class AbstractDomain(Psyobj):
+class AbstractDomain(object):
     """Implements the functionnality related to the changed flag.
     Can be used as a starting point for concrete domains"""
 
@@ -392,7 +387,7 @@ class AbstractDomain(Psyobj):
         if self.size() == 0:
             raise ConsistencyFailure()
 
-class AbstractConstraint(Psyobj):
+class AbstractConstraint(object):
     __implements__ = ConstraintInterface
 
     def __init__(self, variables):
