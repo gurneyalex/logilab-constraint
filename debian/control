@@ -14,7 +14,6 @@ Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/logilab-const
 Package: python-logilab-constraint
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python-logilab-common (>= 0.45.0)
-Suggests: python-psyco
 Provides: ${python:Provides}, python-constraint
 Conflicts: python-constraint (<< 0.4.0-4)
 Replaces: python-constraint (<< 0.4.0-4)
