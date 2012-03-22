@@ -17,7 +17,7 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """Validation testing for constraint propagation module"""
 
-from logilab.common.testlib import TestCase, unittest_main
+from logilab.common.testlib import TestCase, unittest_main, Tags
 
 from logilab.constraint import *
 from logilab.constraint.distributors import EnumeratorDistributor
@@ -26,6 +26,9 @@ import os, sys
 from cStringIO import StringIO
 
 class Queens8_TC(TestCase):
+
+    tags = Tags('slow')
+
     size = 8
     nb_sols = 92
     verbose=0
@@ -55,13 +58,11 @@ class Queens8_TC(TestCase):
         sys.stdout = sys.__stdout__
 
     def testQueensWithEnumerator(self):
-        self.skip("too long")
         solver = Solver(EnumeratorDistributor())
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
 
     def testQueensWithDefaultDistributor(self):
-        self.skip("too long")
         solver = Solver()
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
