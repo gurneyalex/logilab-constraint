@@ -36,7 +36,7 @@ from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \
                                            AbstractConstraint
 
 
-class FiniteDomain(AbstractDomain):
+class FiniteDomain(AbstractDomain, set):
     """
     Variable Domain with a finite set of possible values
     """
@@ -49,62 +49,34 @@ class FiniteDomain(AbstractDomain):
         This class uses a dictionnary to make sure that there are
         no duplicate values"""
         AbstractDomain.__init__(self)
-        if isinstance(values, FiniteDomain):
-            # do a copy on write
-            self._cow = True
-            values._cow = True
-            FiniteDomain._copy_count += 1
-            self._values = values._values
-        else:
-            assert len(values) > 0
-            self.setValues(values)
+        assert len(values) > 0
+        set.__init__(self, values)
 
-        ##self.getValues = self._values.keys
-
-    def setValues(self, values):
-        self._cow = False
-        FiniteDomain._write_count += 1
-        self._values = {}
-        for val in values:
-            self._values[val] = 0
 
     def removeValue(self, value):
         """Remove value of domain and check for consistency"""
-##         print "removing", value, "from", self._values.keys()
-        if self._cow:
-            self.setValues(self._values)
-        del self._values[value]
+        self.remove(value)
         self._valueRemoved()
 
     def removeValues(self, values):
         """Remove values of domain and check for consistency"""
-        if self._cow:
-            self.setValues(self._values)
         if values:
-##             print "removing", values, "from", self._values.keys()
-            for val in values :
-                del self._values[val]
+            self.difference_update(values)
             self._valueRemoved()
     __delitem__ = removeValue
 
-    def size(self):
-        """computes the size of a finite domain"""
-        return len(self._values)
-    __len__ = size
+    size = set.__len__
 
     def getValues(self):
         """return all the values in the domain"""
-        return self._values.keys()
-
-    def __iter__(self):
-        return iter(self._values)
+        return list(self)
 
     def copy(self):
         """clone the domain"""
         return FiniteDomain(self)
 
     def __repr__(self):
-        return '<FiniteDomain %s>' % str(self.getValues())
+        return '<FiniteDomain %s>' % list(self)
 
 ##
 ## Constraints
