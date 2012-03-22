@@ -22,7 +22,7 @@ distname = 'logilab-constraint'
 
 numversion = (0, 4, 1)
 version = '.'.join(map(str, numversion))
-pyversions = ('2.3', '2.4','2.5', '2.6')
+pyversions = ('2.4','2.5', '2.6')
 
 license = 'LGPL'
 copyright = '''Copyright (c) 2002-2010 LOGILAB S.A. (Paris, FRANCE).

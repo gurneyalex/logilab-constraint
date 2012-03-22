@@ -22,7 +22,6 @@
 
 from __future__ import generators, division
 
-from logilab.common.compat import set, sorted
 
 from logilab.constraint.distributors import AbstractDistributor
 from logilab.constraint.propagation import (AbstractDomain, ConsistencyFailure,

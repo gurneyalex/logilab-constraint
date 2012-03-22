@@ -20,6 +20,7 @@
 from logilab.common.testlib import TestCase, unittest_main, Tags
 
 from logilab.constraint import *
+from logilab.constraint.propagation import quiet_printer
 from logilab.constraint.distributors import EnumeratorDistributor
 
 import os, sys
@@ -51,19 +52,21 @@ class Queens8_TC(TestCase):
                                            'abs(%(q1)s[1]-%(q2)s[1])'%\
                                            {'q1':q1,'q2':q2})
                     constraints.append(c)
-        self.repo = Repository(variables,domains,constraints)
+        self.repo = Repository(variables,domains,constraints,
+                               printer=quiet_printer)
         sys.stdout = StringIO()
 
     def tearDown(self):
         sys.stdout = sys.__stdout__
 
     def testQueensWithEnumerator(self):
-        solver = Solver(EnumeratorDistributor())
+        solver = Solver(EnumeratorDistributor(),
+                        printer=quiet_printer)
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
 
     def testQueensWithDefaultDistributor(self):
-        solver = Solver()
+        solver = Solver(printer=quiet_printer)
         solutions = solver.solve(self.repo, verbose=self.verbose)
         self.assertEqual(len(solutions), self.nb_sols)
 

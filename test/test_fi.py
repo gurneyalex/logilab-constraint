@@ -21,6 +21,7 @@ import unittest
 from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint.fi import *
 from logilab.constraint import Repository, Solver
+from logilab.constraint.propagation import quiet_printer
 
 class FiniteIntervalTC(TestCase):
 
@@ -494,12 +495,13 @@ class PlannerTC(TestCase):
         repo = Repository( ['A','B','C'], { 'A': dom1,
                                             'B': dom2,
                                             'C': dom3 },
-                           constraints )
-        s = Solver( self.d )
+                           constraints,
+                           printer=quiet_printer)
+        s = Solver( self.d, printer=quiet_printer)
         answers = list(s.solve_all(repo,verbose=self.verbose))
         self.assertEqual(len(answers), 2)
-        import pprint
-        pprint.pprint( list(answers) )
+        #import pprint
+        #pprint.pprint( list(answers) )
 
     def test_pb1(self):
         constraints = [ StartsAfterEnd('B','A'),
@@ -523,11 +525,39 @@ class PlannerTC(TestCase):
                                                  'B': dom2,
                                                  'C': dom3,
                                                  'D': dom4 },
-                           constraints )
-        s = Solver( self.d )
+                           constraints,
+                           printer=quiet_printer)
+        s = Solver( self.d, printer=quiet_printer)
         answers = list(s.solve_all(repo,verbose=1))
-        import pprint
-        pprint.pprint( list(answers) )
+
+
+        self.assertEqual(len(answers), 6)
+        expected = [
+         {'A': Interval( 0.00,  5.00),
+          'B': Interval( 5.00, 10.00),
+          'C': Interval( 5.00, 15.00),
+          'D': Interval(15.00, 20.00)},
+         {'A': Interval( 0.00,  5.00),
+          'B': Interval( 6.00, 11.00),
+          'C': Interval( 5.00, 15.00),
+          'D': Interval(15.00, 20.00)},
+         {'A': Interval( 0.00,  5.00),
+          'B': Interval( 7.00, 12.00),
+          'C': Interval( 5.00, 15.00),
+          'D': Interval(15.00, 20.00)},
+         {'A': Interval( 0.00,  5.00),
+          'B': Interval( 8.00, 13.00),
+          'C': Interval( 5.00, 15.00),
+          'D': Interval(15.00, 20.00)},
+         {'A': Interval( 0.00,  5.00),
+          'B': Interval( 9.00, 14.00),
+          'C': Interval( 5.00, 15.00),
+          'D': Interval(15.00, 20.00)},
+         {'A': Interval( 0.00,  5.00),
+          'B': Interval(10.00, 15.00),
+          'C': Interval( 5.00, 15.00),
+          'D': Interval(15.00, 20.00)}]
+        self.assertEqual(expected, answers)
 
     def test_pb3(self):
         constraints = [ StartsAfterEnd('B','A'),

@@ -21,12 +21,15 @@ from operator import mul as MUL
 from time import strftime
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
 from logilab.constraint.psyco_wrapper import Psyobj
-from logilab.common.compat import enumerate
 
 def _default_printer(*msgs):
     for msg in msgs[:-1]:
         print msg,
     print msgs[-1]
+
+def quiet_printer(*args):
+    pass
+
 class ConsistencyFailure(Exception):
     """The repository is not in a consistent state"""
     pass
@@ -150,7 +153,8 @@ class Repository(Psyobj):
     def distribute(self, distributor, verbose=0):
         """Create new repository using the distributor and self """
         for domains in distributor.distribute(self._domains, verbose):
-            yield Repository(self._variables, domains, self._constraints)
+            yield Repository(self._variables, domains, self._constraints,
+                             printer=self._printer)
 
 # alf 20041216 -- I tried the following to avoid the cost of the
 # creation of new Repository objects. It resulted in functional, but
