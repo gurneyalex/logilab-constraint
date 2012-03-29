@@ -1,5 +1,5 @@
 # pylint: disable-msg=W0622
-# copyright 2002-2010 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
+# copyright 2002-2012 LOGILAB S.A. (Paris, FRANCE), all rights reserved.
 # contact http://www.logilab.fr/ -- mailto:contact@logilab.fr
 #
 # This file is part of logilab-constraint.
@@ -20,9 +20,8 @@
 modname = 'constraint'
 distname = 'logilab-constraint'
 
-numversion = (0, 4, 1)
+numversion = (0, 5, 0)
 version = '.'.join(map(str, numversion))
-pyversions = ('2.4','2.5', '2.6')
 
 license = 'LGPL'
 copyright = '''Copyright (c) 2002-2010 LOGILAB S.A. (Paris, FRANCE).
