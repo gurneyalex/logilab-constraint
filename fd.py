@@ -36,79 +36,51 @@ from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \
                                            AbstractConstraint
 
 
-class FiniteDomain(AbstractDomain):
+class FiniteDomain(AbstractDomain, set):
     """
     Variable Domain with a finite set of possible values
     """
 
     _copy_count = 0
     _write_count = 0
-    
+
     def __init__(self, values):
         """values is a list of values in the domain
         This class uses a dictionnary to make sure that there are
         no duplicate values"""
         AbstractDomain.__init__(self)
-        if isinstance(values, FiniteDomain):
-            # do a copy on write
-            self._cow = True
-            values._cow = True
-            FiniteDomain._copy_count += 1
-            self._values = values._values
-        else:
-            assert len(values) > 0
-            self.setValues(values)
-            
-        ##self.getValues = self._values.keys
+        assert len(values) > 0
+        set.__init__(self, values)
 
-    def setValues(self, values):
-        self._cow = False
-        FiniteDomain._write_count += 1
-        self._values = {}
-        for val in values:
-            self._values[val] = 0
-        
+
     def removeValue(self, value):
         """Remove value of domain and check for consistency"""
-##         print "removing", value, "from", self._values.keys()
-        if self._cow:
-            self.setValues(self._values)
-        del self._values[value]
+        self.remove(value)
         self._valueRemoved()
 
     def removeValues(self, values):
         """Remove values of domain and check for consistency"""
-        if self._cow:
-            self.setValues(self._values)
         if values:
-##             print "removing", values, "from", self._values.keys()
-            for val in values :
-                del self._values[val]
+            self.difference_update(values)
             self._valueRemoved()
     __delitem__ = removeValue
-    
-    def size(self):
-        """computes the size of a finite domain"""
-        return len(self._values)
-    __len__ = size
-    
+
+    size = set.__len__
+
     def getValues(self):
         """return all the values in the domain"""
-        return self._values.keys()
+        return list(self)
 
-    def __iter__(self):
-        return iter(self._values)
-    
     def copy(self):
         """clone the domain"""
         return FiniteDomain(self)
-    
+
     def __repr__(self):
-        return '<FiniteDomain %s>' % str(self.getValues())
+        return '<FiniteDomain %s>' % list(self)
 
 ##
 ## Constraints
-##    
+##
 class AllDistinct(AbstractConstraint):
     """Contraint: all values must be distinct"""
 
@@ -116,7 +88,7 @@ class AllDistinct(AbstractConstraint):
         assert len(variables)>1
         AbstractConstraint.__init__(self, variables)
         # worst case complexity
-        self.__cost = len(variables) * (len(variables) - 1) / 2 
+        self.__cost = len(variables) * (len(variables) - 1) / 2
 
     def __repr__(self):
         return '<AllDistinct %s>' % str(self._variables)
@@ -129,7 +101,7 @@ class AllDistinct(AbstractConstraint):
         """narrowing algorithm for the constraint"""
         variables = [(domains[variable].size(), variable, domains[variable])
                      for variable in self._variables]
-        
+
         variables.sort()
         # if a domain has a size of 1,
         # then the value must be removed from the other domains
@@ -151,7 +123,7 @@ class AllDistinct(AbstractConstraint):
                 values[val] = 0
         if len(values) < len(variables):
             raise ConsistencyFailure()
-            
+
         # the constraint is entailed if all domains have a size of 1
         for variable in variables:
             if variable[2].size() != 1:
@@ -212,8 +184,8 @@ class Expression(AbstractConstraint):
             else:
                 # it's over
                 go_on = 0
-            
-        
+
+
     def narrow(self, domains):
         """generic narrowing algorithm for n-ary expressions"""
         maybe_entailed = 1
@@ -236,7 +208,7 @@ class Expression(AbstractConstraint):
             for var, keep in result_cache.iteritems():
                 domain = domains[var]
                 domain.removeValues([val for val in domain if val not in keep])
-                
+
         except ConsistencyFailure:
             raise ConsistencyFailure('Inconsistency while applying %s' % \
                                      repr(self))
@@ -254,7 +226,7 @@ class BinaryExpression(Expression):
 
     This implementation uses a narrowing algorithm optimized for
     binary constraints."""
-    
+
     def __init__(self, variables, formula, type = 'fd.BinaryExpression'):
         assert len(variables) == 2
         Expression.__init__(self, variables, formula, type)
@@ -274,7 +246,7 @@ class BinaryExpression(Expression):
             var1, var2 = var2, var1
             dom1, dom2 = dom2, dom1
             values1, values2 = values2, values1
-            
+
         kwargs = {}
         keep1 = {}
         keep2 = {}
@@ -295,13 +267,13 @@ class BinaryExpression(Expression):
 
             dom1.removeValues([val for val in values1 if val not in keep1])
             dom2.removeValues([val for val in values2 if val not in keep2])
-            
+
         except ConsistencyFailure:
             raise ConsistencyFailure('Inconsistency while applying %s' % \
                                      repr(self))
         except Exception:
             print self, kwargs
-            raise 
+            raise
         return maybe_entailed
 
 

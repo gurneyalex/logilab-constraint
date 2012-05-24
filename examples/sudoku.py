@@ -21,7 +21,7 @@ from logilab.constraint import *
 
 
 # games found on http://www.websudoku.com/
-# I'm not sure how they rate the difficulty of their problems. 
+# I'm not sure how they rate the difficulty of their problems.
 easy = ["  5   27 ",
         " 4   79  ",
         "1 6 8  35",
@@ -88,7 +88,7 @@ def sudoku(problem, verbose=0):
         for j, value in enumerate(line):
             if value != ' ':
                 constraints.append(fd.Equals('v%02d_%02d'%(i,j), value))
-        
+
     r = Repository(variables, domains, constraints)
     s = Solver().solve_one(r, verbose)
     return s
@@ -98,7 +98,7 @@ def display_solution(d):
         for j in range(9):
             print d['v%02d_%02d'%(i,j)],
         print
-            
+
 if __name__ == '__main__':
     import sys, getopt
     opts, args = getopt.getopt(sys.argv[1:], 'dv')

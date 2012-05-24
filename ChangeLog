@@ -1,6 +1,15 @@
 ChangeLog for logilab.constraint
 ================================
 
+2012-03-29  --  0.5.0
+    * drop pscysupport (#90272)
+
+    * make FiniteDomain inherits from set builting (#89865)
+
+    * test fixes
+
+
+
 2008-08-07  --  0.4.0
     * allow capture of solver output
 

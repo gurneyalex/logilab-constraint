@@ -20,30 +20,32 @@ from __future__ import generators
 from operator import mul as MUL
 from time import strftime
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
-from logilab.constraint.psyco_wrapper import Psyobj
-from logilab.common.compat import enumerate
 
 def _default_printer(*msgs):
     for msg in msgs[:-1]:
         print msg,
     print msgs[-1]
+
+def quiet_printer(*args):
+    pass
+
 class ConsistencyFailure(Exception):
     """The repository is not in a consistent state"""
     pass
 
-class Repository(Psyobj):
+class Repository(object):
     """Stores variables, domains and constraints
     Propagates domain changes to constraints
     Manages the constraint evaluation queue"""
-    
+
     def __init__(self, variables, domains, constraints = None, printer=_default_printer):
         # encode unicode
         self._printer = printer
-        
+
         for i, var in enumerate(variables):
             if type(var) == type(u''):
                 variables[i] = var.encode()
-                
+
         self._variables = variables   # list of variable names
         self._domains = domains    # maps variable name to domain object
         self._constraints = [] # list of constraint objects
@@ -70,8 +72,8 @@ class Repository(Psyobj):
         self._printer( "%d constraints with:" % len(self._constraints))
         for v in sorted(self._variables):
             self._printer( "%15s = %s" % (v, self._domains[v]))
-            
-        
+
+
     def __repr__(self):
         return '<Repository nb_constraints=%d domains=%s>' % \
                                (len(self._constraints), self._domains)
@@ -81,14 +83,14 @@ class Repository(Psyobj):
         """
         from logilab.common.vcgutils import VCGPrinter, EDGE_ATTRS
         stream = open(filename, 'w')
-        printer = VCGPrinter(stream)        
+        printer = VCGPrinter(stream)
         printer.open_graph(title=title, textcolor='black'
 #                                layoutalgorithm='dfs',
 #                               manhattan_edges='yes'
 #                               port_sharing='no'
 #                                late_edge_labels='yes'
                                 )
-        
+
         for var in self._variables:
             printer.node(var, shape='ellipse')
 
@@ -121,7 +123,7 @@ class Repository(Psyobj):
                          color=EDGE_ATTRS['color'][color])
         printer.close_graph()
         stream.close()
-        
+
     def addConstraint(self, constraint):
         if isinstance(constraint, BasicConstraint):
             # Basic constraints are processed just once
@@ -132,7 +134,7 @@ class Repository(Psyobj):
             self._constraints.append(constraint)
             for var in constraint.affectedVariables():
                 self._variableListeners[var].append(constraint)
-        
+
     def _removeConstraint(self, constraint):
         self._constraints.remove(constraint)
         for var in constraint.affectedVariables():
@@ -150,7 +152,8 @@ class Repository(Psyobj):
     def distribute(self, distributor, verbose=0):
         """Create new repository using the distributor and self """
         for domains in distributor.distribute(self._domains, verbose):
-            yield Repository(self._variables, domains, self._constraints) 
+            yield Repository(self._variables, domains, self._constraints,
+                             printer=self._printer)
 
 # alf 20041216 -- I tried the following to avoid the cost of the
 # creation of new Repository objects. It resulted in functional, but
@@ -167,7 +170,7 @@ class Repository(Psyobj):
 ##             for constraint in backup_constraints:
 ##                 self.addConstraint(constraint)
 ##             yield self
-    
+
     def consistency(self, verbose=0, custom_printer=None):
         """Prunes the domains of the variables
         This method calls constraint.narrow() and queues constraints
@@ -220,13 +223,13 @@ class Repository(Psyobj):
                 self._removeConstraint(constraint)
                 if constraint in _affected_constraints:
                     del _affected_constraints[constraint]
-                
+
         for domain in self._domains.itervalues():
             if domain.size() != 1:
                 return 0
         return 1
 
-class Solver(Psyobj):
+class Solver(object):
     """Top-level object used to manage the search"""
 
     def __init__(self, distributor=None, printer=_default_printer):
@@ -245,26 +248,22 @@ class Solver(Psyobj):
         self.max_depth = 0
         self.distrib_cnt = 0
         try:
-            # XXX  FIXME: this is a workaround a bug in psyco-1.4
-##             return  self._solve(repository).next()
-            return  self._solve(repository, 0).next()
+            return  self._solve(repository).next()
         except StopIteration:
             return
-        
+
     def solve_best(self, repository, cost_func, verbose=0):
         """Generates solution with an improving cost"""
         self.verbose = verbose
         self.max_depth = 0
         self.distrib_cnt = 0
         best_cost = None
-            # XXX  FIXME: this is a workaround a bug in psyco-1.4
-##        for solution in self._solve(repository):
-        for solution in self._solve(repository, 0):
+        for solution in self._solve(repository):
             cost = cost_func(**solution)
             if best_cost is None or cost <= best_cost:
                 best_cost = cost
-                yield solution, cost            
-        
+                yield solution, cost
+
     def solve_all(self, repository, verbose=0):
         """Generates all solutions"""
         self.verbose = verbose
@@ -281,7 +280,7 @@ class Solver(Psyobj):
         for solution in self.solve_all(repository, verbose):
             solutions.append(solution)
         return solutions
-        
+
     def _solve(self, repository, recursion_level=0):
         """main generator"""
         _solve = self._solve
@@ -313,25 +312,25 @@ class Solver(Psyobj):
                     for solution in _solve(repo, recursion_level+1):
                         if solution is not None:
                             yield solution
-                            
+
         if recursion_level == 0 and self.verbose:
             self.printer( strftime('%H:%M:%S'),'Finished search')
             self.printer( strftime('%H:%M:%S'), 'Maximum recursion depth = ',
                 self.max_depth)
             self.printer( 'Nb distributions = ', self.distrib_cnt)
 
-        
 
 
 
 
-class BasicConstraint(Psyobj):
+
+class BasicConstraint(object):
     """A BasicConstraint, which is never queued by the Repository
     A BasicConstraint affects only one variable, and will be entailed
     on the first call to narrow()"""
 
     __implements__ = ConstraintInterface
-    
+
     def __init__(self, variable, reference, operator):
         """variables is a list of variables on which
         the constraint is applied"""
@@ -347,13 +346,13 @@ class BasicConstraint(Psyobj):
 
     def estimateCost(self, domains):
         return 0 # get in the first place in the queue
-    
+
     def affectedVariables(self):
         return [self._variable]
-    
+
     def getVariable(self):
         return self._variable
-        
+
     def narrow(self, domains):
         domain = domains[self._variable]
         operator = self._operator
@@ -368,7 +367,7 @@ class BasicConstraint(Psyobj):
         return 1
 
 
-class AbstractDomain(Psyobj):
+class AbstractDomain(object):
     """Implements the functionnality related to the changed flag.
     Can be used as a starting point for concrete domains"""
 
@@ -378,7 +377,7 @@ class AbstractDomain(Psyobj):
 
     def resetFlags(self):
         self.__changed = 0
-    
+
     def hasChanged(self):
         return self.__changed
 
@@ -387,10 +386,10 @@ class AbstractDomain(Psyobj):
         self.__changed = 1
         if self.size() == 0:
             raise ConsistencyFailure()
-    
-class AbstractConstraint(Psyobj):
+
+class AbstractConstraint(object):
     __implements__ = ConstraintInterface
-    
+
     def __init__(self, variables):
         """variables is a list of variables which appear in the formula"""
         self._variables = variables
@@ -406,4 +405,4 @@ class AbstractConstraint(Psyobj):
         """Return an estimate of the cost of the narrowing of the constraint"""
         return reduce(MUL, [domains[var].size() for var in self._variables])
 
-    
+

@@ -42,12 +42,12 @@ class DistinctDigits(BasicConstraint):
         except ConsistencyFailure, e:
             raise ConsistencyFailure('inconsistency while applying %s'%repr(self))
         return 1
-        
+
     def __repr__(self):
         return '<DistinctDigits>'
 
 
-    
+
 def mensa() :
     """
     ABC*DE=FGHIJ with all letters different and in domain [0,9]
@@ -61,7 +61,7 @@ def mensa() :
     # x = ABC and y = DE, x*y = FGHIJ
     domains['x'] = fd.FiniteDomain(range(0,1000))
     domains['y'] = fd.FiniteDomain(range(0,100))
-    
+
     # x and y *must* have distinct digits themselves
     # (for example this will remove 232 from x's domain)
     for v in variables:

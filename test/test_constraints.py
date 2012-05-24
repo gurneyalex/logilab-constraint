@@ -18,12 +18,13 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint import fd
 from logilab.constraint import propagation
 from logilab.constraint import distributors
 
 
-class AbstractConstraintTC(unittest.TestCase):
+class AbstractConstraintTC(TestCase):
     """override the following methods:
      * setUp to initialize variables
      * narrowingAssertions to check that narrowing was ok
@@ -41,13 +42,13 @@ class AbstractConstraintTC(unittest.TestCase):
         for v in self.relevant_variables:
             self.assert_(self.constraint.isVariableRelevant(v))
         self.failIf(self.constraint.isVariableRelevant(self.irrelevant_variable))
-        
+
 
     def testNarrowing(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
         self.narrowingAssertions()
-        
+
     def testEntailment(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.entailed_domains)
@@ -61,7 +62,7 @@ class AllDistinctTC(AbstractConstraintTC):
         self.domains = {'x':fd.FiniteDomain((1,2)),
                         'y':fd.FiniteDomain((1,3)),
                         'z':fd.FiniteDomain((1,4)),}
-        
+
         self.entailed_domains = {'x':fd.FiniteDomain((1,)),
                                  'y':fd.FiniteDomain((1,2)),
                                  'z':fd.FiniteDomain((1,2,3)),}
@@ -115,11 +116,11 @@ class AllDistinctTC(AbstractConstraintTC):
         vt = domains['t'].getValues()
         vu = domains['u'].getValues()
         self.failUnless(entailed)
-        self.assertEquals([1],  vx)
-        self.assertEquals([2], vy)
-        self.assertEquals([3], vz)
-        self.assertEquals([5], vt)
-        self.assertEquals([4], vu)
+        self.assertEqual([1],  vx)
+        self.assertEqual([2], vy)
+        self.assertEqual([3], vz)
+        self.assertEqual([5], vt)
+        self.assertEqual([4], vu)
 
     def testFailure1(self):
         domains = {'x':fd.FiniteDomain((1,2)),
@@ -155,7 +156,7 @@ class AllDistinctTC(AbstractConstraintTC):
         assert exception
 
 
-    
+
 class UnaryMathConstrTC(AbstractConstraintTC):
     def setUp(self):
         self.relevant_variables = ['x']
@@ -199,7 +200,7 @@ class TernaryMathConstrTC(AbstractConstraintTC):
         self.entailed_domains = {'x':fd.FiniteDomain([2]),
                                  'y':fd.FiniteDomain([0]),
                                  'z':fd.FiniteDomain([2,3]),}
-        
+
 
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
@@ -212,7 +213,7 @@ class TernaryMathConstrTC(AbstractConstraintTC):
         v.sort()
         assert v == [2,3],str(v)
 
-class AbstractBasicConstraintTC(unittest.TestCase):
+class AbstractBasicConstraintTC(TestCase):
     """override the following methods:
      * setUp to initialize variables
      * narrowingAssertions to check that narrowing was ok
@@ -231,12 +232,12 @@ class AbstractBasicConstraintTC(unittest.TestCase):
     def testGetVariable(self):
         """test that getVariable returns the right variable"""
         assert self.constraint.getVariable() == 'x'
-        
+
     def testNarrowing(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
         self.narrowingAssertions()
-        
+
     def testEntailment(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
@@ -311,7 +312,7 @@ def get_all_cases(module):
     for name in dir(module):
         obj = getattr(module, name)
         if type(obj) in (types.ClassType, types.TypeType) and \
-               issubclass(obj, unittest.TestCase) and \
+               issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
     all_cases.sort()
@@ -324,8 +325,8 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    return unittest.TestSuite(suites)
-    
+
+    return TestSuite(suites)
 
 if __name__ == '__main__':
     unittest.main(defaultTest="suite")

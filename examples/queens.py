@@ -104,7 +104,7 @@ def main(args = None):
                 distrib = v
             else:
                 raise RuntimeError("Distributor must be one of %s" % ", ".join(distributors.keys()) )
-        
+
     count = 0
     for sol in queens(size,verbose,distrib):
         count += 1

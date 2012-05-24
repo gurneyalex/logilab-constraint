@@ -27,11 +27,11 @@ class ConstraintInterface:
     def affectedVariables(self):
         """ Return a list of all variables affected by this constraint """
         raise NotImplementedError
-        
+
     def estimateCost(self, domains):
         """ Return an estimate of the cost of the narrowing of the constraint"""
         raise NotImplementedError
-        
+
     def narrow(self, domains):
         """ensures that the domains are consistent with the constraint
         Calls domain.removeValue to remove values from a domain
@@ -46,12 +46,12 @@ class DomainInterface:
     def resetFlags(self):
         """resets the hasChanged flag"""
         raise NotImplementedError
-    
+
     def hasChanged(self):
         """returns true if values have been removed from the domain
         since the last call to resetFlags"""
         raise NotImplementedError
-    
+
     def removeValue(self, value):
         """Removes a value from the domain"""
         raise NotImplementedError
@@ -59,7 +59,7 @@ class DomainInterface:
     def size(self):
         """returns the number of values in the domain"""
         raise NotImplementedError
-        
+
     def getValues(self):
         """returns a tuple containing all the values in the domain
         These values should not be modified!"""
@@ -88,25 +88,25 @@ class DistributorInterface:
 
 ##     def __sub__(self, other):
 ##         raise NotImplementedError
-    
+
 ##     def __mul__(self, other):
 ##         raise NotImplementedError
-    
+
 ##     def __div__(self, other):
 ##         raise NotImplementedError
-        
+
 ##     def __radd__(self, other):
 ##         raise NotImplementedError
 
 ##     def __rsub__(self, other):
 ##         raise NotImplementedError
-    
+
 ##     def __rmul__(self, other):
 ##         raise NotImplementedError
-    
+
 ##     def __rdiv__(self, other):
 ##         raise NotImplementedError
-        
+
 ##     def __abs__(self):
 ##         raise NotImplementedError
 

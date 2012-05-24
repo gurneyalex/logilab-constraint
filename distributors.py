@@ -20,7 +20,6 @@
 distributors - part of Logilab's constraint satisfaction solver.
 """
 
-from logilab.constraint.psyco_wrapper import Psyobj
 from logilab.constraint.interfaces import DistributorInterface
 import math, random
 
@@ -31,7 +30,7 @@ def make_new_domains(domains):
         domain[key] = value.copy()
     return domain
 
-class AbstractDistributor(Psyobj):
+class AbstractDistributor(object):
     """Implements DistributorInterface but abstract because
     _distribute is left unimplemented."""
 
@@ -40,7 +39,7 @@ class AbstractDistributor(Psyobj):
     def __init__(self, nb_subspaces=2):
         self.nb_subspaces = nb_subspaces
         self.verbose = 0
-        
+
     def findSmallestDomain(self, domains):
         """returns the variable having the smallest domain.
         (or one of such varibles if there is a tie)
@@ -83,7 +82,7 @@ class AbstractDistributor(Psyobj):
         """
         raise NotImplementedError("Use a concrete implementation of "
                                   "the Distributor interface")
-        
+
 class NaiveDistributor(AbstractDistributor):
     """distributes domains by splitting the smallest domain in 2 new domains
     The first new domain has a size of one,
@@ -91,7 +90,7 @@ class NaiveDistributor(AbstractDistributor):
 
     def __init__(self):
         AbstractDistributor.__init__(self)
-        
+
     def _distribute(self, dom1, dom2):
         """See AbstractDistributor"""
         variable = self.findSmallestDomain(dom1)
@@ -110,7 +109,7 @@ class RandomizingDistributor(AbstractDistributor):
 
     def __init__(self):
         AbstractDistributor.__init__(self)
-        
+
     def _distribute(self, dom1, dom2):
         """See AbstractDistributor"""
         variable = self.findSmallestDomain(dom1)
@@ -123,14 +122,14 @@ class RandomizingDistributor(AbstractDistributor):
         dom1[variable].removeValues(values)
         dom2[variable].removeValue(distval)
         return (dom1[variable], dom2[variable])
-    
+
 
 class SplitDistributor(AbstractDistributor):
     """distributes domains by splitting the smallest domain in
     nb_subspaces equal parts or as equal as possible.
     If nb_subspaces is 0, then the smallest domain is split in
     domains of size 1"""
-    
+
     def __init__(self, nb_subspaces=3):
         AbstractDistributor.__init__(self, nb_subspaces)
         self.__to_split = None
@@ -141,7 +140,7 @@ class SplitDistributor(AbstractDistributor):
             return min(self.nb_subspaces, domains[self.__to_split].size())
         else:
             return domains[self.__to_split].size()
-    
+
     def _distribute(self, *args):
         """See AbstractDistributor"""
         variable = self.__to_split

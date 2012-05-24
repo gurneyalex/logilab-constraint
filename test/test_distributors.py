@@ -18,10 +18,11 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 from logilab.constraint import distributors,fd
 
 
-class AbstractDistributorTC(unittest.TestCase):
+class AbstractDistributorTC(TestCase):
     """override the following methods:
      * buildDistributor to create the distributor
      * distributionAssertions to check that distribution was OK
@@ -37,11 +38,11 @@ class AbstractDistributorTC(unittest.TestCase):
                         'v3':fd.FiniteDomain([7,8,9,10,11,12,13]),
                          }
         self.distributor = self.buildDistributor()
-        
+
     def buildDistributor(self):
         """returns a distributor"""
         raise NotImplementedError
-    
+
     def distributionAssertions(self):
         """checks the distribution"""
         raise NotImplementedError
@@ -50,14 +51,14 @@ class AbstractDistributorTC(unittest.TestCase):
         """tests that the smallest domain is indeed the smallest one
         with at least 2 values inside"""
         dist = self.buildDistributor()
-        self.assertEquals('v2', dist.findSmallestDomain(self.domains1))
-        self.assertEquals('v2', dist.findSmallestDomain(self.domains2))
+        self.assertEqual('v2', dist.findSmallestDomain(self.domains1))
+        self.assertEqual('v2', dist.findSmallestDomain(self.domains2))
 
     def testFindLargestDomain(self):
         """tests that the largest domain is indeed the largest one"""
         dist = self.buildDistributor()
-        self.assertEquals('v3', dist.findLargestDomain(self.domains1))
-        self.assertEquals('v3', dist.findLargestDomain(self.domains2))
+        self.assertEqual('v3', dist.findLargestDomain(self.domains1))
+        self.assertEqual('v3', dist.findLargestDomain(self.domains2))
 
     def testSingleValueDomainNotDistributed(self):
         """tests that a domain of size 1 is not distributed"""
@@ -65,14 +66,14 @@ class AbstractDistributorTC(unittest.TestCase):
             distributed_domains = self.distributor.distribute(self.domains1)
             for d in distributed_domains:
                 assert d['v1'].size() == initial_domain['v1'].size()
-    
+
 
     def testDistribution(self):
         """tests that the right domain is correctly distributed"""
         for initial_domain in (self.domains1,self.domains2):
             distributed_domains = self.distributor.distribute(initial_domain)
             self.distributionAssertions(initial_domain,distributed_domains)
-            
+
 class NaiveDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
         return distributors.NaiveDistributor()
@@ -87,7 +88,7 @@ class NaiveDistributorTC(AbstractDistributorTC):
 class RandomizingDistributorTC(NaiveDistributorTC):
     def buildDistributor(self):
         return distributors.RandomizingDistributor()
-    
+
 
 class DichotomyDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
@@ -97,7 +98,7 @@ class DichotomyDistributorTC(AbstractDistributorTC):
         for d in distributed:
             for v in ('v1','v3'):
                 assert d[v].getValues() == initial[v].getValues()
-        assert distributed[0]['v2'].size() + distributed[1]['v2'].size() == initial['v2'].size() 
+        assert distributed[0]['v2'].size() + distributed[1]['v2'].size() == initial['v2'].size()
 
 class SplitDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
@@ -110,7 +111,7 @@ class SplitDistributorTC(AbstractDistributorTC):
         sizes = [d['v2'].size() for d in distributed]
         import operator
         tot_size = reduce(operator.add,sizes)
-        assert tot_size == initial['v2'].size() 
+        assert tot_size == initial['v2'].size()
 
 class EnumeratorDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
@@ -129,7 +130,7 @@ def get_all_cases(module):
     for name in dir(module):
         obj = getattr(module, name)
         if type(obj) in (types.ClassType, types.TypeType) and \
-               issubclass(obj, unittest.TestCase) and \
+               issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
     all_cases.sort()
@@ -142,8 +143,8 @@ def suite(cases = None):
     loader.testMethodPrefix = 'test'
     loader.sortTestMethodsUsing = None # disable sorting
     suites = [loader.loadTestsFromTestCase(tc) for tc in cases]
-    return unittest.TestSuite(suites)
-    
+
+    return TestSuite(suites)
 
 if __name__ == '__main__':
     unittest.main(defaultTest="suite")

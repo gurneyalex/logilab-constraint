@@ -22,7 +22,6 @@
 
 from __future__ import generators, division
 
-from logilab.common.compat import set, sorted
 
 from logilab.constraint.distributors import AbstractDistributor
 from logilab.constraint.propagation import (AbstractDomain, ConsistencyFailure,
@@ -45,9 +44,9 @@ class Interval:
 
 class FiniteIntervalDomain(AbstractDomain):
     """
-    Domain for a variable with interval values. 
+    Domain for a variable with interval values.
     """
-    
+
     def __init__(self, lowestMin, highestMax,
                  min_length, max_length=None, resolution=1):
         """
@@ -73,7 +72,7 @@ class FiniteIntervalDomain(AbstractDomain):
         self._resolution = resolution
 
     def __eq__(self, other):
-        
+
         return  self.lowestMin == other.lowestMin and \
                self.highestMax == other.highestMax and \
                self._min_length == other._min_length and \
@@ -91,12 +90,12 @@ class FiniteIntervalDomain(AbstractDomain):
                 yield Interval(start, start+length)
                 start += self._resolution
             length += self._resolution
-        
-        
+
+
     def size(self):
         """computes the size of a finite interval"""
         size = 0
-        length = self._min_length 
+        length = self._min_length
         while length <= self._max_length :
             size += ((self.highestMax - length) - self.lowestMin) / self._resolution + 1
             length += self._resolution
@@ -109,7 +108,7 @@ class FiniteIntervalDomain(AbstractDomain):
         return self.lowestMin + self._min_length
 
     lowestMax = property(_lowestMax, None, None, "")
-    
+
     highestMin = property(_highestMin, None, None, "")
 
     def copy(self):
@@ -165,7 +164,7 @@ class FiniteIntervalDomain(AbstractDomain):
 
 ##
 ## Distributors
-##    
+##
 
 class FiniteIntervalDistributor(AbstractDistributor):
     """Distributes a set of FiniteIntervalDomain
@@ -192,7 +191,7 @@ class FiniteIntervalDistributor(AbstractDistributor):
         else:
             copy1._max_length = copy1._min_length
             copy2._min_length += copy2._resolution
-        
+
 
     def _distribute(self, dom1, dom2):
         variable = self.findSmallestDomain(dom1)
@@ -203,22 +202,22 @@ class FiniteIntervalDistributor(AbstractDistributor):
         cpy2 = splitted.copy()
 
         self._split_values(cpy1, cpy2)
-            
+
         dom1[variable] = cpy1
         dom2[variable] = cpy2
-        
+
         return cpy1, cpy2
-            
-        
+
+
 
 ##
 ## Constraints
-##    
+##
 
 class AbstractFIConstraint(AbstractConstraint):
     def __init__(self, var1, var2):
         AbstractConstraint.__init__(self, (var1, var2))
-    
+
     def estimateCost(self, domains):
         return 1
 
@@ -233,7 +232,7 @@ class AbstractFIConstraint(AbstractConstraint):
         # FIXME: improve implementation
         variables = tuple(sorted(self._variables))
         return hash((self.__class__.__name__, variables))
-    
+
     def narrow(self, domains):
         """narrowing algorithm for the constraint"""
         dom1 = domains[self._variables[0]]
@@ -268,11 +267,11 @@ class NoOverlap(AbstractFIConstraint):
             dom1.setLowestMin(dom2.lowestMax)
             return 1
         return 0
-        
+
 class StartsBeforeStart(AbstractFIConstraint):
 
     def _doNarrow(self, dom1, dom2):
-        
+
         if dom1.lowestMin > dom2.highestMin:
             raise ConsistencyFailure
         if dom1.highestMin < dom2.lowestMin:
@@ -297,7 +296,7 @@ class EndsBeforeStart(AbstractFIConstraint):
             return 1
         if dom1.highestMax > dom2.highestMin:
             dom1.setHighestMax(dom2.highestMin)
-        return 0 
+        return 0
 
 class EndsBeforeEnd(AbstractFIConstraint):
 
@@ -308,7 +307,7 @@ class EndsBeforeEnd(AbstractFIConstraint):
             return 1
         if dom1.highestMax > dom2.highestMax:
             dom1.setHighestMax(dom2.highestMax)
-        return 0 
+        return 0
 
 class StartsAfterStart(AbstractFIConstraint):
 
@@ -319,8 +318,8 @@ class StartsAfterStart(AbstractFIConstraint):
             return 1
         if dom1.lowestMin < dom2.lowestMin:
             dom1.setLowestMin(dom2.lowestMin)
-        return 0 
-        
+        return 0
+
 class StartsAfterEnd(AbstractFIConstraint):
 
     def _doNarrow(self, dom1, dom2):
@@ -341,8 +340,8 @@ class EndsAfterStart(AbstractFIConstraint):
             raise ConsistencyFailure
         if dom1.lowestMax > dom2.highestMin:
             return 1
-        return 0 
-    
+        return 0
+
 class EndsAfterEnd(AbstractFIConstraint):
 
     def _doNarrow(self, dom1, dom2):
@@ -351,4 +350,4 @@ class EndsAfterEnd(AbstractFIConstraint):
         if dom1.lowestMax > dom2.highestMax:
             return 1
         return 0
-    
+

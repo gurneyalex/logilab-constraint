@@ -18,12 +18,13 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from logilab.common.testlib import TestCase, TestSuite
 import os
 from logilab.constraint.propagation import *
 from logilab.constraint import fd
 from logilab.constraint.distributors import DefaultDistributor
 
-class Repository_TC(unittest.TestCase):
+class Repository_TC(TestCase):
     def setUp(self):
         self.domains = {}
         self.variables = list('abcdef')
@@ -48,8 +49,8 @@ class Repository_TC(unittest.TestCase):
         finally:
             os.unlink('toto.vcg')
 
-        
-        
+
+
     def testGetDomains(self):
         doms = self.repo.getDomains()
         self.assertEqual(doms, self.domains)
@@ -89,7 +90,7 @@ class Repository_TC(unittest.TestCase):
             pass
 
 
-class Sover_TC(unittest.TestCase):
+class Sover_TC(TestCase):
     def setUp(self):
         self.solver = Solver()
         self.domains = {}
@@ -130,7 +131,7 @@ class Sover_TC(unittest.TestCase):
                          [])
 
 
-class SolverBest_TC(unittest.TestCase):
+class SolverBest_TC(TestCase):
     def setUp(self):
         self.solver = Solver()
         self.domains = {}
@@ -147,7 +148,7 @@ class SolverBest_TC(unittest.TestCase):
 
     def costFunc(self, a,b,c):
         return -(a*a+b*b+c*c)
-    
+
     def testSolveBest(self):
         solutions = []
         for s in self.solver.solve_best(self.repo, self.costFunc):
@@ -157,10 +158,10 @@ class SolverBest_TC(unittest.TestCase):
         sorted_costs = costs[:]
         sorted_costs.sort()
         sorted_costs.reverse()
-        self.assertEquals(costs, sorted_costs)
-        self.assertEquals(costs, [s[1] for s in solutions])
+        self.assertEqual(costs, sorted_costs)
+        self.assertEqual(costs, [s[1] for s in solutions])
 
-                         
+
 
 if __name__ == '__main__':
     unittest.main()

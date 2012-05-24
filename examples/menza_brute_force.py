@@ -15,11 +15,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
-try:
-    import psyco
-    psyco.full()
-except ImportError:
-    print 'Psyco not available'
 
 def menza():
     sol = []

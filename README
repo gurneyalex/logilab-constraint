@@ -3,7 +3,7 @@ constraint satisfaction problem. It requires python 2.3 or later to
 work. Having psyco (http://psyco.sf.net) installed will definitely
 speed up things, but is not a requirement.
 
-It is released under the GNU Public License. 
+It is released under the GNU Lesser General Public License.
 
 The documentation is in the doc/ directory. Examples are in the
 examples/ directory.

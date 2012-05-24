@@ -44,7 +44,7 @@ def rooks(size=8,verbose=0):
                 D = {'q1':q1,'q2':q2, 'r1' : r1, 'r2' : r2 }
                 c = fd.make_expression((q1,q2), '%(q1)s != %(q2)s' % D )
                 constraints.append(c)
-                
+
     r = Repository(variables,domains,constraints)
     for sol in Solver(EnumeratorDistributor()).solve_all(r,verbose):
         yield sol

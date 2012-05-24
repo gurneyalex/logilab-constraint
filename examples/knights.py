@@ -69,18 +69,18 @@ def knight_tour(size=6,verbose=0):
     half = size/2
     r = Repository(variables,domains,constraints)
     sol = Solver(EnumeratorDistributor()).solve_one(r,verbose)	
-    return sol 
+    return sol
 
 def draw_solution(sol, size):
     # change the keys into elements, elements into keys
     # to display the results.
-    # I'm sure there's a better way to do this, but I'm 
+    # I'm sure there's a better way to do this, but I'm
     # new to python
     board = ''
     board += '_'*(size*3+1)+'\n'
     squares = {}
     for t in sol.items():
-        squares[(t[1][0]*size)+t[1][1]]=t[0]   
+        squares[(t[1][0]*size)+t[1][1]]=t[0]
     for i in range(size):
         for j in range(size):
         # find the variable whose value is (i,j)
