@@ -37,12 +37,9 @@ to variables linked to these domains.
 """
 
 author = "Alexandre Fayolle"
-author_email = "alexandre.fayolle@logilab.fr"
+author_email = "contact@logilab.fr"
 
-web = "http://www.logilab.org/projects/%s" % modname
-ftp = "ftp://ftp.logilab.org/pub/%s/" % modname
+web = "http://www.logilab.org/projects/%s" % distname
 mailinglist = "http://lists.logilab.org/mailman/listinfo/python-logic/"
 
 subpackage_of = 'logilab'
-debian_name = 'constraint'
-debian_maintainer_email = 'afayolle@debian.org'
