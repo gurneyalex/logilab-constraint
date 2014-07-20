@@ -20,6 +20,7 @@
 distributors - part of Logilab's constraint satisfaction solver.
 """
 
+from six.moves import range
 from logilab.constraint.interfaces import DistributorInterface
 import math, random
 

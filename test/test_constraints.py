@@ -18,7 +18,10 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+
+from six.moves import range
 from logilab.common.testlib import TestCase, TestSuite
+
 from logilab.constraint import fd
 from logilab.constraint import propagation
 from logilab.constraint import distributors

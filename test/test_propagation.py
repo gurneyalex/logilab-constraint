@@ -18,6 +18,7 @@
 """Unit testing for constraint propagation module"""
 
 import unittest
+from six.moves import range
 from logilab.common.testlib import TestCase, TestSuite
 import os
 from logilab.constraint.propagation import *
@@ -96,7 +97,7 @@ class Sover_TC(TestCase):
         self.domains = {}
         self.variables = list('abcdef')
         for v in self.variables:
-            self.domains[v] = fd.FiniteDomain(range(6))
+            self.domains[v] = fd.FiniteDomain(list(range(6)))
 
         self.repo = Repository(self.variables, self.domains)
         for v1 in self.variables:
