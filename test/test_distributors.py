@@ -109,8 +109,7 @@ class SplitDistributorTC(AbstractDistributorTC):
             for v in ('v1','v3'):
                 assert d[v].getValues() == initial[v].getValues()
         sizes = [d['v2'].size() for d in distributed]
-        import operator
-        tot_size = reduce(operator.add,sizes)
+        tot_size = sum(sizes)
         assert tot_size == initial['v2'].size()
 
 class EnumeratorDistributorTC(AbstractDistributorTC):
