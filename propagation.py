@@ -52,7 +52,7 @@ class Repository(object):
         self._variableListeners = {}
         for var in self._variables:
             self._variableListeners[var] = []
-            assert self._domains.has_key(var)
+            assert var in self._domains
         for constr in constraints or ():
             self.addConstraint(constr)
 
@@ -98,7 +98,7 @@ class Repository(object):
         i = 0
         for constraint in self._constraints:
             key = constraint.type
-            if not type_colors.has_key(key):
+            if key not in type_colors:
                 type_colors[key] = color_index
                 color_index += 1
             affected_vars = constraint.affectedVariables()
