@@ -17,14 +17,15 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """Validation testing for constraint propagation module"""
 
+import sys
+from cStringIO import StringIO
+
 from logilab.common.testlib import TestCase, unittest_main, Tags
 
 from logilab.constraint import *
 from logilab.constraint.propagation import quiet_printer
 from logilab.constraint.distributors import EnumeratorDistributor
 
-import os, sys
-from cStringIO import StringIO
 
 class Queens8_TC(TestCase):
 
