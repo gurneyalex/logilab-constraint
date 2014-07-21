@@ -71,12 +71,11 @@ class SuiteDomainTC(AbstractDomainTC):
 
 
 def get_all_cases(module):
-    import types
+    from inspect import isclass
     all_cases = []
     for name in dir(module):
         obj = getattr(module, name)
-        if type(obj) in (types.ClassType, types.TypeType) and \
-               issubclass(obj, TestCase) and \
+        if isclass(obj) and issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
     all_cases.sort()
