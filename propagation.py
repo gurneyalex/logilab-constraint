@@ -181,21 +181,21 @@ class Repository(object):
             printer( strftime('%H:%M:%S'), '** Consistency **')
 
         _queue = [ (constr.estimateCost(self._domains),
-                           constr) for constr in self._constraints ]
+                    id(constr), constr) for constr in self._constraints ]
         _queue.sort()
         _affected_constraints = {}
         while True:
             if not _queue:
                 # refill the queue if some constraints have been affected
                 _queue = [(constr.estimateCost(self._domains),
-                           constr) for constr in _affected_constraints]
+                           id(constr), constr) for constr in _affected_constraints]
                 if not _queue:
                     break
                 _queue.sort()
                 _affected_constraints.clear()
             if verbose > 2:
                 printer( strftime('%H:%M:%S'), 'Queue', _queue)
-            cost, constraint = _queue.pop(0)
+            cost, _, constraint = _queue.pop(0)
             if verbose > 1:
                 printer( strftime('%H:%M:%S'),
                 'Trying to entail constraint', constraint, '[cost:%d]' % cost)

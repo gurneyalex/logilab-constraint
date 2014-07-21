@@ -317,7 +317,7 @@ def get_all_cases(module):
         if isclass(obj) and issubclass(obj, TestCase) and \
                not name.startswith('Abstract'):
             all_cases.append(obj)
-    all_cases.sort()
+    all_cases.sort(key=lambda x: x.__name__)
     return all_cases
 
 def suite(cases = None):
