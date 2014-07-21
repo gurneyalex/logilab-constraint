@@ -19,6 +19,7 @@
 from __future__ import print_function
 import sys
 from operator import mul as MUL
+from functools import reduce
 from time import strftime
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
 
