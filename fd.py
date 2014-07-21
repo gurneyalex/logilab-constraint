@@ -29,6 +29,7 @@ make_expression factory function.  """
 
 from __future__ import print_function
 
+import sys
 import operator
 
 from logilab.constraint.propagation import AbstractDomain, BasicConstraint, \
@@ -283,7 +284,7 @@ def make_expression(variables, formula, constraint_type=None):
     # encode unicode
     vars = []
     for var in variables:
-        if type(var) == type(u''):
+        if sys.version_info < (3,) and type(var) == type(u''):
             vars.append(var.encode())
         else:
             vars.append(var)
