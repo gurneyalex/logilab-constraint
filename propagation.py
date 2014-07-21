@@ -245,7 +245,7 @@ class Solver(object):
         self.max_depth = 0
         self.distrib_cnt = 0
         try:
-            return  self._solve(repository).next()
+            return next(self._solve(repository))
         except StopIteration:
             return
 
