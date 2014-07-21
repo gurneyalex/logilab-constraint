@@ -220,7 +220,7 @@ class Repository(object):
                 if constraint in _affected_constraints:
                     del _affected_constraints[constraint]
 
-        for domain in self._domains.itervalues():
+        for domain in self._domains.values():
             if domain.size() != 1:
                 return 0
         return 1

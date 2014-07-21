@@ -194,7 +194,7 @@ class Expression(AbstractConstraint):
         result_cache = self._init_result_cache()
         for kwargs in self._assign_values(domains):
             if maybe_entailed:
-                for var, val in kwargs.iteritems():
+                for var, val in kwargs.items():
                     if val not in result_cache[var]:
                         break
                 else:
@@ -206,7 +206,7 @@ class Expression(AbstractConstraint):
                 maybe_entailed = 0
 
         try:
-            for var, keep in result_cache.iteritems():
+            for var, keep in result_cache.items():
                 domain = domains[var]
                 domain.removeValues([val for val in domain if val not in keep])
 
