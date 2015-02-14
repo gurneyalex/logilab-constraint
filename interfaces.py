@@ -17,7 +17,7 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """Definition of interfaces"""
 
-class ConstraintInterface:
+class ConstraintInterface(object):
     """The interface that all constraints should implement"""
     def isVariableRelevant(self, variable):
         """Returns true if changes in the domaine of the variable
@@ -40,7 +40,7 @@ class ConstraintInterface:
         raise NotImplementedError
 
 
-class DomainInterface:
+class DomainInterface(object):
     """The interface that all domains should implement"""
 
     def resetFlags(self):
@@ -65,7 +65,7 @@ class DomainInterface:
         These values should not be modified!"""
         raise NotImplementedError
 
-class DistributorInterface:
+class DistributorInterface(object):
     """The interface that all distributors should implement"""
     def distribute(self, domains, verbose=0):
         """domains is a dictionnary of variable -> Domain objects

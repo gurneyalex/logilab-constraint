@@ -27,7 +27,7 @@ from logilab.constraint.distributors import AbstractDistributor
 from logilab.constraint.propagation import (AbstractDomain, ConsistencyFailure,
                                             AbstractConstraint)
 
-class Interval:
+class Interval(object):
     """representation of an interval
     This class is used to give back results from a FiniteIntervalDomain
     """
