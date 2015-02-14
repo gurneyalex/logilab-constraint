@@ -20,7 +20,6 @@ Solve a puzzle that got discussed on c.l.p. on october 2002
 
 ABC*DE=FGHIJ with all letters different and in domain [0,9]
 """
-from __future__ import generators
 
 from logilab.constraint import *
 from logilab.constraint.distributors import DichotomyDistributor

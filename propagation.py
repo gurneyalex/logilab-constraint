@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """The code of the constraint propagation algorithms"""
-from __future__ import generators
 from operator import mul as MUL
 from time import strftime
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface

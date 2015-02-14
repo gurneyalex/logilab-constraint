@@ -20,7 +20,7 @@
 
 """
 
-from __future__ import generators, division
+from __future__ import division
 
 
 from logilab.constraint.distributors import AbstractDistributor

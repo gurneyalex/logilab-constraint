@@ -27,7 +27,6 @@ This module provides the following usable classes:
 The Expression and BinaryExpression classes can be constructed using the
 make_expression factory function.  """
 
-from __future__ import generators
 
 import operator
 

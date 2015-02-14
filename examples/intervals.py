@@ -23,7 +23,6 @@
 Example problem with intervals
 """
 
-from __future__ import generators
 
 from logilab.constraint import *
 from logilab.constraint.distributors import *

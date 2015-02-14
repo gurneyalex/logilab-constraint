@@ -22,7 +22,6 @@ The problem is solved with a EnumeratorDistributor splitting
 the smallest domain in at most N subdomains."""
 
 
-from __future__ import generators
 
 from logilab.constraint import *
 from logilab.constraint.distributors import *
