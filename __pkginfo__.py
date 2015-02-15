@@ -43,3 +43,9 @@ web = "http://www.logilab.org/projects/%s" % distname
 mailinglist = "http://lists.logilab.org/mailman/listinfo/python-logic/"
 
 subpackage_of = 'logilab'
+
+classifiers = ["Topic :: Scientific/Engineering",
+               "Programming Language :: Python",
+               "Programming Language :: Python :: 2",
+               "Programming Language :: Python :: 3",
+               ]
