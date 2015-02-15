@@ -43,7 +43,7 @@ class Repository_TC(TestCase):
         try:
             try:
                 self.repo.vcg_draw('toto.vcg')
-            except IOError, exc:
+            except IOError as exc:
                 self.fail('This test cannot run in the testing environment'
                           'because I cannot write the file.\n'
                           'The error message was: \n%s' % exc)

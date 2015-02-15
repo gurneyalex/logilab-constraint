@@ -38,7 +38,7 @@ class DistinctDigits(BasicConstraint):
                     if s.count(d) not in (0,1):
                         domain.removeValue(v)
                         break
-        except ConsistencyFailure, e:
+        except ConsistencyFailure as e:
             raise ConsistencyFailure('inconsistency while applying %s'%repr(self))
         return 1
 

@@ -292,7 +292,7 @@ class Solver(object):
             repository.display_vars()
         try:
             foundSolution = repository.consistency(verbose, custom_printer=self.printer)
-        except ConsistencyFailure, exc:
+        except ConsistencyFailure as exc:
             if verbose:
                 self.printer( strftime('%H:%M:%S'), exc)
         else:
