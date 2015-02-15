@@ -49,3 +49,6 @@ classifiers = ["Topic :: Scientific/Engineering",
                "Programming Language :: Python :: 2",
                "Programming Language :: Python :: 3",
                ]
+
+install_requires = ['logilab-common >= 0.63.2',
+                    'six >= 1.4.0']
