@@ -20,12 +20,14 @@
 """Generic Setup script, takes package info from __pkginfo__.py file.
 
 """
+from __future__ import print_function
+
 __docformat__ = "restructuredtext en"
 
 import os
 import sys
 import shutil
-from os.path import isdir, exists, join, walk
+from os.path import isdir, exists, join
 
 try:
     if os.environ.get('NO_SETUPTOOLS'):
@@ -113,33 +115,42 @@ def get_packages(directory, prefix):
 
 def export(from_dir, to_dir,
            blacklist=STD_BLACKLIST,
-           ignore_ext=IGNORED_EXTENSIONS):
+           ignore_ext=IGNORED_EXTENSIONS,
+           verbose=True):
     """make a mirror of from_dir in to_dir, omitting directories and files
     listed in the black list
     """
-    def make_mirror(arg, directory, fnames):
+    def make_mirror(dirpath, dirnames, fnames):
         """walk handler"""
         for norecurs in blacklist:
             try:
                 fnames.remove(norecurs)
             except ValueError:
                 pass
+            try:
+                dirnames.remove(norecurs)
+            except ValueError:
+                pass
+        for dirname in dirnames:
+            src = join(dirpath, dirname)
+            dest = to_dir + src[len(from_dir):]
+            if verbose:
+                print(src, '->', dest, file=sys.stderr)
+            if not exists(dest):
+                os.mkdir(dest)
         for filename in fnames:
             # don't include binary files
             if filename[-4:] in ignore_ext:
                 continue
             if filename[-1] == '~':
                 continue
-            src = '%s/%s' % (directory, filename)
+            src = join(dirpath, filename)
             dest = to_dir + src[len(from_dir):]
-            print >> sys.stderr, src, '->', dest
-            if os.path.isdir(src):
-                if not exists(dest):
-                    os.mkdir(dest)
-            else:
-                if exists(dest):
-                    os.remove(dest)
-                shutil.copy2(src, dest)
+            if verbose:
+                print(src, '->', dest, file=sys.stderr)
+            if exists(dest):
+                os.remove(dest)
+            shutil.copy2(src, dest)
     try:
         os.mkdir(to_dir)
     except OSError as ex:
@@ -147,7 +158,8 @@ def export(from_dir, to_dir,
         import errno
         if ex.errno != errno.EEXIST:
             raise
-    walk(from_dir, make_mirror, None)
+    for root, dirnames, fnames in os.walk(from_dir):
+        make_mirror(root, dirnames, fnames)
 
 
 EMPTY_FILE = '''"""generated file, don\'t modify or your data will be lost"""
