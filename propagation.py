@@ -16,14 +16,10 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """The code of the constraint propagation algorithms"""
+from __future__ import print_function
 from operator import mul as MUL
 from time import strftime
 from logilab.constraint.interfaces import DomainInterface, ConstraintInterface
-
-def _default_printer(*msgs):
-    for msg in msgs[:-1]:
-        print msg,
-    print msgs[-1]
 
 def quiet_printer(*args):
     pass
@@ -37,7 +33,7 @@ class Repository(object):
     Propagates domain changes to constraints
     Manages the constraint evaluation queue"""
 
-    def __init__(self, variables, domains, constraints = None, printer=_default_printer):
+    def __init__(self, variables, domains, constraints = None, printer=print):
         # encode unicode
         self._printer = printer
 
@@ -231,7 +227,7 @@ class Repository(object):
 class Solver(object):
     """Top-level object used to manage the search"""
 
-    def __init__(self, distributor=None, printer=_default_printer):
+    def __init__(self, distributor=None, printer=print):
         """if no distributer given, will use the default one"""
         self.printer = printer
         if distributor is None:

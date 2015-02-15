@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 
 from logilab.constraint import *
 
@@ -96,8 +97,8 @@ def sudoku(problem, verbose=0):
 def display_solution(d):
     for i in range(9):
         for j in range(9):
-            print d['v%02d_%02d'%(i,j)],
-        print
+            print(d['v%02d_%02d'%(i,j)], end=' ')
+        print()
 
 if __name__ == '__main__':
     import sys, getopt
@@ -113,4 +114,4 @@ if __name__ == '__main__':
     if display:
         display_solution(sol)
     else:
-        print sol
+        print(sol)

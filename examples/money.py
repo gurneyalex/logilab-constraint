@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 
 from logilab.constraint import *
 
@@ -52,11 +53,11 @@ def money(verbose=0):
 
 def display_solution(d):
     for s in d:
-        print '  SEND\t  \t','  %(s)d%(e)d%(n)d%(d)d'%s
-        print '+ MORE\t  \t','+ %(m)d%(o)d%(r)d%(e)d'%s
-        print '------\t-->\t','------'
-        print ' MONEY\t  \t',' %(m)d%(o)d%(n)d%(e)d%(y)d'%s
-        print
+        print('  SEND\t  \t','  %(s)d%(e)d%(n)d%(d)d'%s)
+        print('+ MORE\t  \t','+ %(m)d%(o)d%(r)d%(e)d'%s)
+        print('------\t-->\t','------')
+        print(' MONEY\t  \t',' %(m)d%(o)d%(n)d%(e)d%(y)d'%s)
+        print()
 
 if __name__ == '__main__':
     import sys, getopt
@@ -72,4 +73,4 @@ if __name__ == '__main__':
     if display:
         display_solution([sol])
     else:
-        print sol
+        print(sol)

@@ -20,6 +20,7 @@
 
 """
 
+from __future__ import print_function
 from __future__ import division
 
 
@@ -196,7 +197,7 @@ class FiniteIntervalDistributor(AbstractDistributor):
     def _distribute(self, dom1, dom2):
         variable = self.findSmallestDomain(dom1)
         if self.verbose:
-            print 'Distributing domain for variable', variable
+            print('Distributing domain for variable', variable)
         splitted = dom1[variable]
         cpy1 = splitted.copy()
         cpy2 = splitted.copy()

@@ -21,7 +21,7 @@
 The problem is solved with a EnumeratorDistributor splitting
 the smallest domain in at most N subdomains."""
 
-
+from __future__ import print_function
 
 from logilab.constraint import *
 from logilab.constraint.distributors import *
@@ -64,7 +64,7 @@ def draw_solution(s):
                 board+='|Q'
         board+='|\n'
     board += '¯'*(size*2+1)
-    print board
+    print(board)
 
 
 def main(args = None):
@@ -90,14 +90,14 @@ def main(args = None):
     for sol in queens(size,verbose):
         count += 1
         if display:
-            print 'solution #%d'%count
+            print('solution #%d'%count)
             draw_solution(sol)
-            print '*'*80
+            print('*'*80)
         if first:
             break
     if not display:
-        print 'Use -d option to display solutions'
-    print count,'solutions found.'
+        print('Use -d option to display solutions')
+    print(count,'solutions found.')
 
 if __name__ == '__main__':
 ##     import hotshot

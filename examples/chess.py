@@ -17,6 +17,7 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """Chess constraints and domains"""
 
+from __future__ import print_function
 
 from logilab.constraint import fd
 from logilab.constraint.propagation import AbstractConstraint, ConsistencyFailure
@@ -73,7 +74,7 @@ class QueensConstraint(AbstractConstraint):
             raise ConsistencyFailure('Inconsistency while applying %s' % \
                                      repr(self))
         except Exception:
-            print self, kwargs
+            print(self, kwargs)
             raise
         return maybe_entailed
 

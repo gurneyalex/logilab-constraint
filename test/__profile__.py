@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
+
 from logilab.constraint.propagation import *
 from logilab.constraint import fd
 
@@ -40,7 +42,7 @@ def queens(size=8,verbose=0):
                                                       {'q1':q1,'q2':q2}))
     r = Repository(variables,domains,constraints)
     s = Solver().solve(r,verbose)
-    print 'Number of solutions:',len(s)
+    print('Number of solutions:',len(s))
 
 if __name__ == '__main__':
     import profile

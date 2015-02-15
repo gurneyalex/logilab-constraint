@@ -22,6 +22,7 @@ Place n*n values on a checker so
 that consecutive values are a knight's
 move away from each other"""
 
+from __future__ import print_function
 
 from logilab.constraint import *
 from logilab.constraint.distributors import *
@@ -90,7 +91,7 @@ def draw_solution(sol, size):
             board+='|%02s'%intsquare
         board+='|\n'
     board += '¯'*(size*3+1)+'\n'
-    print board
+    print(board)
 
 
 if __name__ == '__main__':
@@ -110,5 +111,5 @@ if __name__ == '__main__':
     count = 0
     sol = knight_tour(size,verbose)
     if display:
-        print 'Solution found:'
+        print('Solution found:')
         draw_solution(sol,size)

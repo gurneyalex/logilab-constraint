@@ -20,6 +20,8 @@
 distributors - part of Logilab's constraint satisfaction solver.
 """
 
+from __future__ import print_function
+
 from six.moves import range
 from logilab.constraint.interfaces import DistributorInterface
 import math, random
@@ -97,8 +99,8 @@ class NaiveDistributor(AbstractDistributor):
         variable = self.findSmallestDomain(dom1)
         values = dom1[variable].getValues()
         if self.verbose:
-            print 'Distributing domain for variable', variable, \
-                  'at value', values[0]
+            print('Distributing domain for variable', variable,
+                  'at value', values[0])
         dom1[variable].removeValues(values[1:])
         dom2[variable].removeValue(values[0])
         return (dom1[variable], dom2[variable])
@@ -118,8 +120,8 @@ class RandomizingDistributor(AbstractDistributor):
         distval = random.choice(values)
         values.remove(distval)
         if self.verbose:
-            print 'Distributing domain for variable', variable, \
-                  'at value', distval
+            print('Distributing domain for variable', variable,
+                  'at value', distval)
         dom1[variable].removeValues(values)
         dom2[variable].removeValue(distval)
         return (dom1[variable], dom2[variable])
@@ -152,7 +154,7 @@ class SplitDistributor(AbstractDistributor):
                    int(math.floor((index + 1) * nb_elts)))
                   for index in range(nb_subspaces)]
         if self.verbose:
-            print 'Distributing domain for variable', variable
+            print('Distributing domain for variable', variable)
         modified = []
         for (dom, (end, start)) in zip(args, slices) :
             dom[variable].removeValues(values[:end])

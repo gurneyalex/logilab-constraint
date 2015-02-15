@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 
 # import Repository, ListDomain and MathematicConstraint
 from logilab.constraint import *
@@ -51,7 +52,7 @@ for g in groups:
     for conf1 in g:
         for conf2 in g:
             if conf2 > conf1:
-                print '%s[1] != %s[1]'%(conf1,conf2)
+                print('%s[1] != %s[1]'%(conf1,conf2))
                 constraints.append(fd.make_expression((conf1,conf2),
                                                       '%s[1] != %s[1]'%\
                                                       (conf1,conf2)))
@@ -61,5 +62,5 @@ constraints.append(fd.AllDistinct(variables))
 
 r = Repository(variables,domains,constraints)
 solutions = Solver().solve(r)
-print solutions
-print len(solutions)
+print(solutions)
+print(len(solutions))

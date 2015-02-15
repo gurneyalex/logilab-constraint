@@ -23,6 +23,7 @@
 Example problem with intervals
 """
 
+from __future__ import print_function
 
 from logilab.constraint import *
 from logilab.constraint.distributors import *
@@ -72,13 +73,13 @@ def main(args = None):
     for sol in intervals(size,verbose):
         count += 1
         if display:
-            print sol
-            print '*'*80
+            print(sol)
+            print('*'*80)
         if first:
             break
     if not display:
-        print 'Use -d option to display solutions'
-    print count,'solutions found.'
+        print('Use -d option to display solutions')
+    print(count,'solutions found.')
 
 if __name__ == '__main__':
 ##     import hotshot

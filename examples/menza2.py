@@ -21,6 +21,8 @@ Solve a puzzle that got discussed on c.l.p. on october 2002
 ABC*DE=FGHIJ with all letters different and in domain [0,9]
 """
 
+from __future__ import print_function
+
 from logilab.constraint import *
 from logilab.constraint.distributors import DichotomyDistributor
 from logilab.constraint.propagation import BasicConstraint, ConsistencyFailure
@@ -87,12 +89,12 @@ if __name__ == '__main__' :
             display = 1
 
     r = mensa()
-    print 'problem created. let us solve it.'
+    print('problem created. let us solve it.')
     s = []
     for sol in Solver().solve_all(r,verbose):
         s.append(sol)
         if display:
             sol['c'] = sol['x']*sol['y']
-            print "%(x)s x %(y)s = %(c)s" % sol
+            print("%(x)s x %(y)s = %(c)s" % sol)
     if not display:
-        print 'Found %d solutions'%len(s)
+        print('Found %d solutions'%len(s))

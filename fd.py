@@ -27,6 +27,7 @@ This module provides the following usable classes:
 The Expression and BinaryExpression classes can be constructed using the
 make_expression factory function.  """
 
+from __future__ import print_function
 
 import operator
 
@@ -271,7 +272,7 @@ class BinaryExpression(Expression):
             raise ConsistencyFailure('Inconsistency while applying %s' % \
                                      repr(self))
         except Exception:
-            print self, kwargs
+            print(self, kwargs)
             raise
         return maybe_entailed
 
