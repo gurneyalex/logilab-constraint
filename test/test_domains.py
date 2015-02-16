@@ -39,18 +39,18 @@ class AbstractDomainTC(TestCase):
         v1.sort()
         v2 = self.values[:]
         v2.sort()
-        assert v1 == v2
+        self.assertEqual(v1, v2)
 
     def testSize(self):
         """tests the size() method"""
-        assert self.domain.size() == len(self.values)
+        self.assertEqual(self.domain.size(), len(self.values))
         self.domain.removeValue(self.values[0])
-        assert self.domain.size() == len(self.values) - 1
+        self.assertEqual(self.domain.size(), len(self.values) - 1)
 
     def testRemove(self):
         """tests the removeValue() method"""
         self.domain.removeValue(self.values[0])
-        assert self.values[0] not in self.domain.getValues()
+        self.assertNotIn(self.values[0], self.domain.getValues())
 
     def testEmptyDomain(self):
         """tests that a ConsistencyFailure exception is raised
@@ -62,7 +62,7 @@ class AbstractDomainTC(TestCase):
             self.domain.removeValue(self.values[0])
         except propagation.ConsistencyFailure:
             exception = 1
-        assert exception
+        self.assertTrue(exception)
 
 class SuiteDomainTC(AbstractDomainTC):
     def setUp(self):

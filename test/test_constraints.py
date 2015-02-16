@@ -43,7 +43,7 @@ class AbstractConstraintTC(TestCase):
     def testRelevance(self):
         """tests that relevant variables are relevant"""
         for v in self.relevant_variables:
-            self.assert_(self.constraint.isVariableRelevant(v))
+            self.assertTrue(self.constraint.isVariableRelevant(v))
         self.failIf(self.constraint.isVariableRelevant(self.irrelevant_variable))
 
 
@@ -55,7 +55,7 @@ class AbstractConstraintTC(TestCase):
     def testEntailment(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.entailed_domains)
-        self.assert_(entailed)
+        self.assertTrue(entailed)
 
 class AllDistinctTC(AbstractConstraintTC):
     def setUp(self):
@@ -74,9 +74,12 @@ class AllDistinctTC(AbstractConstraintTC):
         vx = self.domains['x'].getValues()
         vy = self.domains['y'].getValues()
         vz = self.domains['z'].getValues()
-        self.assert_( 1 in vx and 2 in vx)
-        self.assert_( 1 in vy and 3 in vy)
-        self.assert_( 1 in vz and 4 in vz)
+        self.assertIn(1, vx)
+        self.assertIn(2, vx)
+        self.assertIn(1, vy)
+        self.assertIn(3, vy)
+        self.assertIn(1, vz)
+        self.assertIn(4, vz)
 
     def testNarrowing2(self):
         domains = {'x':fd.FiniteDomain((1,2)),
@@ -86,10 +89,10 @@ class AllDistinctTC(AbstractConstraintTC):
         vx = domains['x'].getValues()
         vy = domains['y'].getValues()
         vz = domains['z'].getValues()
-        self.assert_(entailed)
-        self.assert_(2 in vx)
-        self.assert_(1 in vy)
-        self.assert_(4 in vz)
+        self.assertTrue(entailed)
+        self.assertIn(2, vx)
+        self.assertIn(1, vy)
+        self.assertIn(4, vz)
 
     def testNarrowing3(self):
         domains = {'x':fd.FiniteDomain((1,)),
@@ -99,10 +102,11 @@ class AllDistinctTC(AbstractConstraintTC):
         vx = domains['x'].getValues()
         vy = domains['y'].getValues()
         vz = domains['z'].getValues()
-        self.assert_(not entailed)
-        self.assert_(1 in vx, str(vx))
-        self.assert_(2 in vy, str(vy))
-        self.assert_(4 in vz and 3 in vz, str(vz))
+        self.assertFalse(entailed)
+        self.assertIn(1, vx)
+        self.assertIn(2, vy)
+        self.assertIn(4, vz)
+        self.assertIn(3, vz)
 
     def testNarrowing4(self):
         domains = {'x':fd.FiniteDomain((1,)),
@@ -134,7 +138,7 @@ class AllDistinctTC(AbstractConstraintTC):
             entailed = self.constraint.narrow(domains)
         except propagation.ConsistencyFailure:
             exception = 1
-        assert exception
+        self.assertTrue(exception)
 
     def testFailure2(self):
         domains = {'x':fd.FiniteDomain((1,)),
@@ -145,7 +149,7 @@ class AllDistinctTC(AbstractConstraintTC):
             entailed = self.constraint.narrow(domains)
         except propagation.ConsistencyFailure:
             exception = 1
-        assert exception
+        self.assertTrue(exception)
 
     def testFailure3(self):
         domains = {'x':fd.FiniteDomain((1,)),
@@ -156,7 +160,7 @@ class AllDistinctTC(AbstractConstraintTC):
             entailed = self.constraint.narrow(domains)
         except propagation.ConsistencyFailure:
             exception = 1
-        assert exception
+        self.assertTrue(exception)
 
 
 
@@ -171,7 +175,7 @@ class UnaryMathConstrTC(AbstractConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [2],str(v)
+        self.assertEqual(v, [2])
 
 class BinaryMathConstrTC(AbstractConstraintTC):
     def setUp(self):
@@ -186,10 +190,10 @@ class BinaryMathConstrTC(AbstractConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [1,2],str(v)
+        self.assertEqual(v, [1,2])
         v = list(self.domains['y'].getValues())
         v.sort()
-        assert v == [0,1],str(v)
+        self.assertEqual(v, [0,1])
 
 class TernaryMathConstrTC(AbstractConstraintTC):
     def setUp(self):
@@ -208,13 +212,13 @@ class TernaryMathConstrTC(AbstractConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [0,1,2],str(v)
+        self.assertEqual(v, [0,1,2])
         v = list(self.domains['y'].getValues())
         v.sort()
-        assert v == [0,1,2],str(v)
+        self.assertEqual(v, [0,1,2])
         v = list(self.domains['z'].getValues())
         v.sort()
-        assert v == [2,3],str(v)
+        self.assertEqual(v, [2,3])
 
 class AbstractBasicConstraintTC(TestCase):
     """override the following methods:
@@ -229,12 +233,12 @@ class AbstractBasicConstraintTC(TestCase):
 
     def testRelevance(self):
         """tests that relevant variables are relevant"""
-        assert self.constraint.isVariableRelevant('x')
-        assert not self.constraint.isVariableRelevant('tagada')
+        self.assertTrue(self.constraint.isVariableRelevant('x'))
+        self.assertFalse(self.constraint.isVariableRelevant('tagada'))
 
     def testGetVariable(self):
         """test that getVariable returns the right variable"""
-        assert self.constraint.getVariable() == 'x'
+        self.assertEqual(self.constraint.getVariable(), 'x')
 
     def testNarrowing(self):
         """tests that narrowing is performed correctly"""
@@ -244,7 +248,7 @@ class AbstractBasicConstraintTC(TestCase):
     def testEntailment(self):
         """tests that narrowing is performed correctly"""
         entailed = self.constraint.narrow(self.domains)
-        assert entailed
+        self.assertTrue(entailed)
 
 
 class EqualsConstrTC(AbstractBasicConstraintTC):
@@ -255,7 +259,7 @@ class EqualsConstrTC(AbstractBasicConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [1],str(v)
+        self.assertEqual(v, [1])
 
 class NotEqualsConstrTC(AbstractBasicConstraintTC):
     def setUp(self):
@@ -265,7 +269,7 @@ class NotEqualsConstrTC(AbstractBasicConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [0,2],str(v)
+        self.assertEqual(v, [0,2])
 
 class LesserThanConstrTC(AbstractBasicConstraintTC):
     def setUp(self):
@@ -275,7 +279,7 @@ class LesserThanConstrTC(AbstractBasicConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [0],str(v)
+        self.assertEqual(v, [0])
 
 class LesserOrEqualConstrTC(AbstractBasicConstraintTC):
     def setUp(self):
@@ -285,7 +289,7 @@ class LesserOrEqualConstrTC(AbstractBasicConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [0,1],str(v)
+        self.assertEqual(v, [0,1])
 
 class GreaterThanConstrTC(AbstractBasicConstraintTC):
     def setUp(self):
@@ -295,7 +299,7 @@ class GreaterThanConstrTC(AbstractBasicConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [2],str(v)
+        self.assertEqual(v, [2])
 
 class GreaterOrEqualConstrTC(AbstractBasicConstraintTC):
     def setUp(self):
@@ -305,8 +309,7 @@ class GreaterOrEqualConstrTC(AbstractBasicConstraintTC):
     def narrowingAssertions(self):
         v = list(self.domains['x'].getValues())
         v.sort()
-        assert v == [1,2],str(v)
-
+        self.assertEqual(v, [1,2])
 
 
 def get_all_cases(module):

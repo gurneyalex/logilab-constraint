@@ -65,7 +65,7 @@ class AbstractDistributorTC(TestCase):
         for initial_domain in (self.domains1,self.domains2):
             distributed_domains = self.distributor.distribute(self.domains1)
             for d in distributed_domains:
-                assert d['v1'].size() == initial_domain['v1'].size()
+                self.assertEqual(d['v1'].size(), initial_domain['v1'].size())
 
 
     def testDistribution(self):
@@ -78,12 +78,12 @@ class NaiveDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
         return distributors.NaiveDistributor()
     def distributionAssertions(self,initial,distributed):
-        assert len(distributed) == 2
+        self.assertEqual(len(distributed), 2)
         for d in distributed:
             for v in ('v1','v3'):
-                assert d[v].getValues() == initial[v].getValues()
-        assert distributed[0]['v2'].size() == 1
-        assert distributed[1]['v2'].size() == initial['v2'].size()-1
+                self.assertEqual(d[v].getValues(), initial[v].getValues())
+        self.assertEqual(distributed[0]['v2'].size(), 1)
+        self.assertEqual(distributed[1]['v2'].size(), initial['v2'].size()-1)
 
 class RandomizingDistributorTC(NaiveDistributorTC):
     def buildDistributor(self):
@@ -94,33 +94,33 @@ class DichotomyDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
         return distributors.DichotomyDistributor()
     def distributionAssertions(self,initial,distributed):
-        assert len(distributed) == 2
+        self.assertEqual(len(distributed), 2)
         for d in distributed:
             for v in ('v1','v3'):
-                assert d[v].getValues() == initial[v].getValues()
-        assert distributed[0]['v2'].size() + distributed[1]['v2'].size() == initial['v2'].size()
+                self.assertEqual(d[v].getValues(), initial[v].getValues())
+        self.assertEqual(distributed[0]['v2'].size() + distributed[1]['v2'].size(), initial['v2'].size())
 
 class SplitDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
         return distributors.SplitDistributor(4)
     def distributionAssertions(self,initial,distributed):
-        assert len(distributed) == min(4,initial['v2'].size())
+        self.assertEqual(len(distributed), min(4,initial['v2'].size()))
         for d in distributed:
             for v in ('v1','v3'):
-                assert d[v].getValues() == initial[v].getValues()
+                self.assertEqual(d[v].getValues(), initial[v].getValues())
         sizes = [d['v2'].size() for d in distributed]
         tot_size = sum(sizes)
-        assert tot_size == initial['v2'].size()
+        self.assertEqual(tot_size, initial['v2'].size())
 
 class EnumeratorDistributorTC(AbstractDistributorTC):
     def buildDistributor(self):
         return distributors.EnumeratorDistributor()
     def distributionAssertions(self,initial,distributed):
-        assert len(distributed) == initial['v2'].size()
+        self.assertEqual(len(distributed), initial['v2'].size())
         for d in distributed:
             for v in ('v1','v3'):
-                assert d[v].getValues() == initial[v].getValues()
-            assert d['v2'].size() == 1
+                self.assertEqual(d[v].getValues(), initial[v].getValues())
+            self.assertEqual(d['v2'].size(), 1)
 
 
 def get_all_cases(module):
