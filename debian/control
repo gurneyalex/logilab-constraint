@@ -1,23 +1,25 @@
 Source: logilab-constraint
 Section: python
 Priority: optional
-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
-Uploaders: Alexandre Fayolle <afayolle@debian.org>, Sandro Tosi <morph@debian.org>
-Build-Depends-Indep: python-support, python (>= 2.5.4-1~)
-Build-Depends: debhelper (>= 5.0.38)
-XS-Python-Version: all
+Maintainer: Logilab SA <contact@logilab.fr>
+Build-Depends:
+ debhelper (>= 9),
+ python-all (>= 2.6.5),
+ python3-all,
+X-Python-Version: >= 2.6
+X-Python3-Version: >= 3.3
 Standards-Version: 3.8.3
 Homepage: http://www.logilab.org/project/logilab-constraint
-Vcs-Svn: svn://svn.debian.org/svn/python-modules/packages/logilab-constraint
-Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/logilab-constraint/trunk/
+Vcs-Hg: http://hg.logilab.org/master/logilab/constraint
+Vcs-Browser: http://hg.logilab.org/master/logilab/constraint
 
 Package: python-logilab-constraint
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-logilab-common (>= 0.45.0)
-Provides: ${python:Provides}, python-constraint
-Conflicts: python-constraint (<< 0.4.0-4)
-Replaces: python-constraint (<< 0.4.0-4)
-XB-Python-Version: ${python:Versions}
+Depends:
+ ${python:Depends},
+ ${misc:Depends},
+ python-logilab-common (>= 0.63.2),
+ python-six (>= 1.4.0),
 Description: constraints satisfaction solver in Python
  Extensible constraint satisfaction problem solver written in pure
  Python, using constraint propagation algorithms. The
@@ -25,11 +27,16 @@ Description: constraints satisfaction solver in Python
  values, finite interval domains, and constraints which can be applied
  to variables linked to these domains.
 
-Package: python-constraint
+Package: python3-logilab-constraint
 Architecture: all
-Depends: python-logilab-constraint
-Description: Transitional dummy package
- This is a dummy package to ease transition from previous 
- versions of python-logilab-constraint.
- .
- It can be safely removed from your system.
+Depends:
+ ${python3:Depends},
+ ${misc:Depends},
+ python3-logilab-common (>= 0.63.2),
+ python3-six (>= 1.4.0),
+Description: constraints satisfaction solver in Python3
+ Extensible constraint satisfaction problem solver written in pure
+ Python, using constraint propagation algorithms. The
+ logilab.constraint module provides finite domains with arbitrary
+ values, finite interval domains, and constraints which can be applied
+ to variables linked to these domains.

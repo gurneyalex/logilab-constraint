@@ -1,72 +1,47 @@
 #!/usr/bin/make -f
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
+# -*- makefile -*-
 #
-# adapted by Logilab for automatic generation by debianize
-# (part of the devtools project, http://www.logilab.org/projects/devtools)
-#
-# Copyright (c) 2003-2005 LOGILAB S.A. (Paris, FRANCE).
+# Copyright (c) 2003-2011 LOGILAB S.A. (Paris, FRANCE).
 # http://www.logilab.fr/ -- mailto:contact@logilab.fr
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+include /usr/share/python/python.mk
 
+# don't build the python3 package if python3 is < 3.3
+py3k = $(subst python3.,,$(shell py3versions -d))
+build_py3k = $(shell test "$(py3k)" -gt 2 && echo 1)
 
-build: build-stamp
-build-stamp: 
-	dh_testdir
-	python setup.py -q build
-	touch build-stamp
+PYLIB:=$(call py_libdir,$(shell pyversions -d))
+PACKAGE:=$(call py_pkgname,python-logilab-constraint,python)
+PYLIB3:=$(call py_libdir,python3.)
+PACKAGE3:=$(call py_pkgname,python-logilab-constraint,python3.)
 
-clean: 
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp configure-stamp
-	rm -rf build
-	find . -name "*.pyc" | xargs rm -f
-	rm -f changelog.gz
+ifeq (,$(build_py3k))
+    DH_OPTIONS += -N$(PACKAGE3)
+    export DH_OPTIONS
+endif
+
+build: build-indep
+.PHONY: build
+
+%:
+	dh $@ --with python2,python3
+
+override_dh_auto_install:
+	NO_SETUPTOOLS=1 python setup.py -q install --no-compile \
+	                --root=$(CURDIR)/debian/$(PACKAGE)/ \
+	                ${py_setup_install_args}
+ifneq (,$(build_py3k))
+	NO_SETUPTOOLS=1 python3 setup.py -q install --no-compile \
+	                --root=$(CURDIR)/debian/$(PACKAGE3)/ \
+	                ${py_setup_install_args}
+endif
+	rm -f debian/*/usr/lib/python*/*/logilab/__init__.py
+
+override_dh_clean:
 	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs
-	python setup.py -q install --no-compile \
-		--root=debian/python-logilab-constraint  \
-		--install-headers=debian/python-logilab-constraint/usr/include/ \
-		--install-scripts=usr/bin \
-		--install-layout=deb
-	# remove sub-package __init__ file (created by another package)
-	rm debian/python-logilab-constraint/usr/lib/python*/site-packages/logilab/__init__.py
-	# remove test directory (installed in in the doc directory)
-	rm -rf debian/python-logilab-constraint/usr/lib/python*/site-packages/logilab/constraint/test
-	# install tests
-	(cd test && find . -type f -not \( -path '*/CVS/*' -or -name '*.pyc' \) -exec install -D --mode=644 {} ../debian/python-logilab-constraint/usr/share/doc/python-logilab-constraint/test/{} \;)
-
-
-# Build architecture-independent files here.
-binary-indep: build install
-	dh_testdir 
-	dh_testroot 
-	dh_install -i
-	dh_pysupport -i
-	dh_installexamples -i
-	dh_installchangelogs -i ChangeLog
-	dh_installdocs -i README
-	dh_installman -i
-	dh_link -i
-	dh_compress -i -X.py -X.ini -X.xml -Xtest
-	dh_fixperms -i
-	dh_installdeb -i
-	dh_gencontrol -i 
-	dh_md5sums -i
-	dh_builddeb -i
-
-binary-arch:
-
-
-binary: binary-indep
-.PHONY: build clean binary binary-indep binary-arch
-
+	rm -rf build
+	rm -rf doc/apidoc
+	rm -rf *.egg-info
