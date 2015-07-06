@@ -72,12 +72,12 @@ class FiniteIntervalTC(TestCase):
         self.assertEqual(self.dom3.size(), 12)
 
     def test_overlap(self):
-        self.failUnless(self.dom1.overlap(self.dom2))
-        self.failUnless(self.dom1.overlap(FiniteIntervalDomain(-5,  5, 1)))
-        self.failUnless(self.dom1.overlap(FiniteIntervalDomain( 5, 15, 1)))
-        self.failUnless(self.dom1.overlap(FiniteIntervalDomain(-5, 15, 1)))
-        self.failIf(self.dom1.overlap(FiniteIntervalDomain(-15, 0, 1)))
-        self.failIf(self.dom1.overlap(FiniteIntervalDomain(10, 25, 1)))
+        self.assertTrue(self.dom1.overlap(self.dom2))
+        self.assertTrue(self.dom1.overlap(FiniteIntervalDomain(-5,  5, 1)))
+        self.assertTrue(self.dom1.overlap(FiniteIntervalDomain( 5, 15, 1)))
+        self.assertTrue(self.dom1.overlap(FiniteIntervalDomain(-5, 15, 1)))
+        self.assertFalse(self.dom1.overlap(FiniteIntervalDomain(-15, 0, 1)))
+        self.assertFalse(self.dom1.overlap(FiniteIntervalDomain(10, 25, 1)))
 
     def test_SetLow(self):
         self.dom1.setLowestMin(2)
@@ -458,10 +458,10 @@ class DistributorTC(TestCase):
                    'v2': d2,
                    }
         dom1, dom2 = self.d.distribute(domains)
-        self.failUnless(dom1['v2'] == dom2['v2'])
-        self.failUnless(dom1['v2'] == d2)
-        self.failIf(dom1['v1'] == d1)
-        self.failIf(dom2['v1'] == d1)
+        self.assertTrue(dom1['v2'] == dom2['v2'])
+        self.assertTrue(dom1['v2'] == d2)
+        self.assertFalse(dom1['v1'] == d1)
+        self.assertFalse(dom2['v1'] == d1)
         self.assertEqual(dom1['v1']._max_length, d1._min_length)
         self.assertEqual(dom2["v1"]._min_length, d1._min_length+d1._resolution)
         self.assertEqual(d1.size(), dom1['v1'].size() + dom2['v1'].size())
@@ -473,10 +473,10 @@ class DistributorTC(TestCase):
                    'v2': d2,
                    }
         dom1, dom2 = self.d.distribute(domains)
-        self.failUnless(dom1['v2'] == dom2['v2'])
-        self.failUnless(dom1['v2'] == d2)
-        self.failIf(dom1['v1'] == d1)
-        self.failIf(dom2['v1'] == d1)
+        self.assertTrue(dom1['v2'] == dom2['v2'])
+        self.assertTrue(dom1['v2'] == d2)
+        self.assertFalse(dom1['v1'] == d1)
+        self.assertFalse(dom2['v1'] == d1)
         self.assertEqual(dom1['v1'].size(), 1)
         self.assertEqual(dom1["v1"].highestMax, d1._min_length + d1.lowestMin)
         self.assertEqual(dom2["v1"].lowestMin, d1._resolution + d1.lowestMin)

@@ -44,7 +44,7 @@ class AbstractConstraintTC(TestCase):
         """tests that relevant variables are relevant"""
         for v in self.relevant_variables:
             self.assertTrue(self.constraint.isVariableRelevant(v))
-        self.failIf(self.constraint.isVariableRelevant(self.irrelevant_variable))
+        self.assertFalse(self.constraint.isVariableRelevant(self.irrelevant_variable))
 
 
     def testNarrowing(self):
@@ -122,7 +122,7 @@ class AllDistinctTC(AbstractConstraintTC):
         vz = domains['z'].getValues()
         vt = domains['t'].getValues()
         vu = domains['u'].getValues()
-        self.failUnless(entailed)
+        self.assertTrue(entailed)
         self.assertEqual([1],  vx)
         self.assertEqual([2], vy)
         self.assertEqual([3], vz)
