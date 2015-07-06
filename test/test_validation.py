@@ -18,7 +18,7 @@
 """Validation testing for constraint propagation module"""
 
 import sys
-from cStringIO import StringIO
+from six.moves import StringIO
 
 from logilab.common.testlib import TestCase, unittest_main, Tags
 
