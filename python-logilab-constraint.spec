@@ -9,7 +9,7 @@
 %{!?_python_sitelib: %define _python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 %define project_name logilab-constraint
-%define project_version 0.5.0
+%define project_version 0.6.0
 
 Summary:        constraints satisfaction solver in Python
 Name:           %{python}-%{project_name}
@@ -24,7 +24,8 @@ Vendor:         Logilab <contact@logilab.fr>
 Url:            http://www.logilab.org/project/%{project_name}
 
 BuildRequires:  %{python}
-Requires:       %{python}, %{python}-logilab-common >= 0.55.2
+Requires:       %{python}, %{python}-logilab-common >= 0.63.2
+Requires:       %{python}-six >= 1.4.0
 
 
 %description

@@ -1,3 +1,9 @@
+logilab-constraint (0.6.0-1) unstable; urgency=medium
+
+  * new upstream release
+
+ -- Julien Cristau <julien.cristau@logilab.fr>  Mon, 06 Jul 2015 11:54:08 +0200
+
 logilab-constraint (0.5.0-1) unstable; urgency=low
 
   * new upstream release

@@ -20,7 +20,7 @@
 modname = 'constraint'
 distname = 'logilab-constraint'
 
-numversion = (0, 5, 0)
+numversion = (0, 6, 0)
 version = '.'.join(map(str, numversion))
 
 license = 'LGPL'
