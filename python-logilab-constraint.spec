@@ -24,9 +24,10 @@ Vendor:         Logilab <contact@logilab.fr>
 Url:            http://www.logilab.org/project/%{project_name}
 
 BuildRequires:  %{python}
+BuildRequires:  %{python}-setuptools
 Requires:       %{python}, %{python}-logilab-common >= 0.63.2
 Requires:       %{python}-six >= 1.4.0
-
+Requires:       %{python}-setuptools
 
 %description
 constraints satisfaction solver in Python
