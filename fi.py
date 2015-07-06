@@ -77,7 +77,6 @@ class FiniteIntervalDomain(AbstractDomain):
         self._resolution = resolution
 
     def __eq__(self, other):
-
         return  self.lowestMin == other.lowestMin and \
                self.highestMax == other.highestMax and \
                self._min_length == other._min_length and \
@@ -276,7 +275,6 @@ class NoOverlap(AbstractFIConstraint):
 class StartsBeforeStart(AbstractFIConstraint):
 
     def _doNarrow(self, dom1, dom2):
-
         if dom1.lowestMin > dom2.highestMin:
             raise ConsistencyFailure
         if dom1.highestMin < dom2.lowestMin:
@@ -284,7 +282,6 @@ class StartsBeforeStart(AbstractFIConstraint):
         return 0
 
 class StartsBeforeEnd(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.lowestMin > dom2.highestMax:
             raise ConsistencyFailure
@@ -293,7 +290,6 @@ class StartsBeforeEnd(AbstractFIConstraint):
         return 0
 
 class EndsBeforeStart(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.lowestMax > dom2.highestMin:
             raise ConsistencyFailure
@@ -304,7 +300,6 @@ class EndsBeforeStart(AbstractFIConstraint):
         return 0
 
 class EndsBeforeEnd(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.lowestMax > dom2.highestMax:
             raise ConsistencyFailure
@@ -315,7 +310,6 @@ class EndsBeforeEnd(AbstractFIConstraint):
         return 0
 
 class StartsAfterStart(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.highestMin < dom2.lowestMin:
             raise ConsistencyFailure
@@ -326,7 +320,6 @@ class StartsAfterStart(AbstractFIConstraint):
         return 0
 
 class StartsAfterEnd(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.highestMin < dom2.lowestMax:
             raise ConsistencyFailure
@@ -339,7 +332,6 @@ class StartsAfterEnd(AbstractFIConstraint):
         return 0
 
 class EndsAfterStart(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.highestMax < dom2.lowestMin:
             raise ConsistencyFailure
@@ -348,11 +340,9 @@ class EndsAfterStart(AbstractFIConstraint):
         return 0
 
 class EndsAfterEnd(AbstractFIConstraint):
-
     def _doNarrow(self, dom1, dom2):
         if dom1.highestMax < dom2.lowestMax:
             raise ConsistencyFailure
         if dom1.lowestMax > dom2.highestMax:
             return 1
         return 0
-
