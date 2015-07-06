@@ -17,9 +17,12 @@
 # with logilab-constraint. If not, see <http://www.gnu.org/licenses/>.
 """Constraint Satisfaction Problem (CSP) Solver in Python."""
 
-from logilab.constraint.__pkginfo__ import version as __version__
+import pkg_resources
+
 from logilab.constraint.propagation import Repository, Solver
 from logilab.constraint.distributors import DefaultDistributor
 from logilab.constraint import fd
 from logilab.constraint import fi
+
 __all__ = ['Repository', 'Solver', 'DefaultDistributor', 'fd', 'fi']
+__version__ = pkg_resources.get_distribution('logilab-constraint').version

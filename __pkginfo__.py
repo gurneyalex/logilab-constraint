@@ -27,7 +27,7 @@ license = 'LGPL'
 copyright = '''Copyright (c) 2002-2010 LOGILAB S.A. (Paris, FRANCE).
 http://www.logilab.fr/ -- mailto:contact@logilab.fr'''
 
-short_desc = "constraints satisfaction solver in Python"
+description = "constraints satisfaction solver in Python"
 
 long_desc = """Extensible constraint satisfaction problem solver written in pure
 Python, using constraint propagation algorithms. The
@@ -52,3 +52,4 @@ classifiers = ["Topic :: Scientific/Engineering",
 
 install_requires = ['logilab-common >= 0.63.2',
                     'six >= 1.4.0']
+tests_require = []
