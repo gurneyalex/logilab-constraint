@@ -43,6 +43,10 @@ class Interval(object):
         return self._start == other._start and \
                self._end == other._end
 
+    def __hash__(self):
+        return hash((self.__class__, self._start, self._end))
+
+
 class FiniteIntervalDomain(AbstractDomain):
     """
     Domain for a variable with interval values.
@@ -79,6 +83,10 @@ class FiniteIntervalDomain(AbstractDomain):
                self._min_length == other._min_length and \
                self._max_length == other._max_length and \
                self._resolution == other._resolution
+
+    def __hash__(self):
+        return hash((self.__class__, self.lowestMin, self.highestMax,
+                     self._min_length, self._max_length, self._resolution))
 
     def getValues(self):
         return list(self.iter_values())
@@ -226,7 +234,8 @@ class AbstractFIConstraint(AbstractConstraint):
         return '<%s %s>' % (self.__class__.__name__, str(self._variables))
 
     def __eq__(self, other):
-        return repr(self) == repr(other)
+        return (self.__class__ is other.__class__ and
+                tuple(sorted(self._variables)) == tuple(sorted(other._variables)))
 
     def __hash__(self):
         # FIXME: to be able to add constraints in Sets (and compare them)
@@ -249,11 +258,6 @@ class AbstractFIConstraint(AbstractConstraint):
 
 # FIXME: deal with more than 2 domains at once ?
 class NoOverlap(AbstractFIConstraint):
-
-    def __eq__(self, other):
-        return isinstance(other, NoOverlap) and \
-               set(self._variables) == set(other._variables)
-
     def _doNarrow(self, dom1, dom2):
         if not dom1.overlap(dom2):
             return 1
