@@ -6,3 +6,4 @@ include COPYING
 include COPYING.LESSER
 include README
 recursive-include examples *.py
+include __pkginfo__.py
