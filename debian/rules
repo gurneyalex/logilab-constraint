@@ -30,15 +30,14 @@ build: build-indep
 	dh $@ --with python2,python3
 
 override_dh_auto_install:
-	NO_SETUPTOOLS=1 python setup.py -q install --no-compile \
-	                --root=$(CURDIR)/debian/$(PACKAGE)/ \
-	                ${py_setup_install_args}
+	python setup.py -q install --no-compile \
+	    --root=$(CURDIR)/debian/$(PACKAGE)/ \
+	    ${py_setup_install_args}
 ifneq (,$(build_py3k))
-	NO_SETUPTOOLS=1 python3 setup.py -q install --no-compile \
-	                --root=$(CURDIR)/debian/$(PACKAGE3)/ \
-	                ${py_setup_install_args}
+	python3 setup.py -q install --no-compile \
+	    --root=$(CURDIR)/debian/$(PACKAGE3)/ \
+	    ${py_setup_install_args}
 endif
-	rm -f debian/*/usr/lib/python*/*/logilab/__init__.py
 
 override_dh_clean:
 	dh_clean
